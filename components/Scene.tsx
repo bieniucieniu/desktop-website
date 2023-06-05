@@ -1,4 +1,4 @@
-"use clien";
+"use client";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Mesh } from "three";
@@ -22,11 +22,14 @@ function Capsule() {
   );
 }
 
-export default function Scene() {
+export default function Scene(props: React.HTMLProps<HTMLDivElement>) {
   return (
-    <Canvas camera={{ position: [0, 0, 20] }}>
-      <ambientLight />
-      <Capsule />
-    </Canvas>
+    <div {...props}>
+      <Canvas camera={{ position: [0, 0, 20] }}>
+        <ambientLight />
+
+        <Capsule />
+      </Canvas>
+    </div>
   );
 }
