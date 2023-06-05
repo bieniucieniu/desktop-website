@@ -1,10 +1,8 @@
-import Scene from "@/components/Scene";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col bg-black text-white">
-      <Scene className="absolute top-0 left-0 h-screen w-screen overflow-hidden" />
+    <main className="min-h-screen flex flex-col text-white">
       <nav className="flex flex-row justify-around text-3xl underline">
         <a target="_blank" href="https://github.com/bieniucieniu">
           github
