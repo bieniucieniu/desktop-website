@@ -9,15 +9,16 @@ import type {
 	NormalBufferAttributes,
 } from "three";
 
-function Capsule({
-	position,
-	ref,
-}: {
-	position: [number, number, number];
-	ref: MutableRefObject<
-		Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[]>
-	>;
-}) {
+function Capsule({ position }: { position: [number, number, number] }) {
+	const ref = useRef<Mesh>(null!);
+
+	useFrame((_, delta) => {
+		if (ref.current) {
+			ref.current.rotation.x += delta;
+			ref.current.rotation.y += delta;
+			ref.current.rotation.z += delta;
+		}
+	});
 	return (
 		<mesh ref={ref} position={position}>
 			<capsuleGeometry args={[5, 5, 10, 20]} />
@@ -27,18 +28,9 @@ function Capsule({
 }
 
 function Scene() {
-	const viewport = useThree((state) => state.viewport);
-	const { scrollYProgress } = useScroll();
-	const ref = useRef<Mesh>(null!);
-
-	useFrame(() => {
-		if (ref.current)
-			ref.current.position.y = (viewport.width / 2) * scrollYProgress.get();
-	});
-
 	return (
 		<group>
-			<Capsule ref={ref} position={[0, 0, 0]} />
+			<Capsule position={[0, 0, 0]} />
 		</group>
 	);
 }

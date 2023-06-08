@@ -1,10 +1,10 @@
 import Scene from "@/components/Scene";
 import "./globals.css";
 import { JetBrains_Mono } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/MainNavbar";
 
 const jetBrainsMono = JetBrains_Mono({
-	weight: ["300", "400", "600"],
+	weight: ["300", "400", "800"],
 	subsets: ["latin"],
 });
 
@@ -21,9 +21,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={jetBrainsMono.className}>
-				<Scene className="fixed h-screen w-screen overflow-hidden -z-10" />
-				<Navbar />
-				{children}
+				<div className="min-h-screen flex flex-col text-white m-0 p-0">
+					<Scene className="fixed h-screen w-screen overflow-hidden -z-10" />
+					<Navbar />
+					{children}
+				</div>
 			</body>
 		</html>
 	);

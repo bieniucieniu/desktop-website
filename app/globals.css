@@ -19,3 +19,18 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
 	background: #6649b8;
 }
+
+@keyframes slid-expand-down {
+	0% {
+		transform: translateY(-100%);
+		transform: scale(0.5);
+	}
+	100% {
+		transform: translateY(0%);
+		transform: scale(1);
+	}
+}
+
+.slide-expand-down {
+	animation: slid-expand-down 1s ease-out;
+}
