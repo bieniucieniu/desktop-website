@@ -7,9 +7,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      lineHeight: {
-        zero: "line-height: 0px",
-      },
       borderColor: {
         default: "border-color: var(--border-color);",
       },
