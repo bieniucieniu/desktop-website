@@ -53,7 +53,7 @@ export default function Home() {
         <Block className="col-span-2"></Block>
       </div>
       <Block>
-        Milosz <mark>okradl</mark> szefa i sie do tego <mark>przyznal</mark>
+        Milosz <mark>nie okradl</mark> szefa i sie do tego <mark>przyznal</mark>
       </Block>
     </main>
   )
