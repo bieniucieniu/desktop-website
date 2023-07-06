@@ -3,5 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --font-size: 14px;
+  --font-size: 20px;
+  --default-bg: #1d1f21;
+  --default-color: #e1e8e3;
+  --border-color: #c5c8c6;
+}
+
+body {
+  background-color: var(--default-bg);
+  font-size: var(--font-size);
+  color: var(--default-color);
 }
