@@ -2,7 +2,7 @@
 import Block from "@/components/ui/Block"
 import { useState } from "react"
 
-const blocks: { name: string }[] = [
+const projectsList: { name: string }[] = [
   { name: "github" },
   { name: "breakout" },
   { name: "sorting" },
@@ -20,7 +20,7 @@ export default function Home() {
           case "j":
           case "ArrowDown":
             if (currentBlock !== undefined) {
-              if (currentBlock < blocks.length - 1) {
+              if (currentBlock < projectsList.length - 1) {
                 setCurrnetBlock(currentBlock + 1)
               }
             }
@@ -38,9 +38,9 @@ export default function Home() {
       className="min-h-screen font-medium grid"
       style={{ gridTemplateRows: "1fr auto" }}
     >
-      <div className="h-full grid grid-cols-3">
+      <div className="h-full grid grid-cols-[400px_1fr]">
         <div className="h-full flex flex-col">
-          {blocks.map((b, i) => (
+          {projectsList.map((b, i) => (
             <Block
               key={b.name}
               className={currentBlock === i ? "border-lime-500" : ""}
@@ -50,7 +50,7 @@ export default function Home() {
             </Block>
           ))}
         </div>
-        <Block className="col-span-2"></Block>
+        <Block></Block>
       </div>
       <Block>
         Milosz <mark>nie okradl</mark> szefa i sie do tego <mark>przyznal</mark>
