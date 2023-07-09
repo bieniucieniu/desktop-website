@@ -9,40 +9,19 @@ export default function Block({
 }: {
   children?: ReactNode
   className?: string
-  legend?:
-    | ReactNode
-    | undefined
-    | [ReactNode | undefined, ReactNode | undefined]
+  legend?: ReactNode | undefined
 } & HTMLProps<HTMLFieldSetElement>) {
   return (
     <fieldset
       {...props}
       className={twMerge(
-        `border-2 p-1 m-2 flex-1 relative ${
-          Array.isArray(legend) ? "border-b-0" : ""
-        }`,
+        "border-[1.5px] p-[0.5rem] m-[0.5rem] min-h-[3rem] leading-[2rem] relative",
         className
       )}
     >
       {legend ? (
-        Array.isArray(legend) ? (
-          <>
-            <fieldset
-              {...props}
-              className="absolute inset-0 rotate-180 border-t-2"
-            >
-              <legend className="m-0 p-0 leading-[0] rotate-180 mr-4">
-                {legend[1]}
-              </legend>
-            </fieldset>
-
-            <legend className=" leading-[0]">{legend[0]}</legend>
-          </>
-        ) : (
-          <legend className=" leading-[0]">{legend}</legend>
-        )
+        <legend className="px-[0.2rem] leading-[0]">{legend}</legend>
       ) : null}
-
       {children}
     </fieldset>
   )

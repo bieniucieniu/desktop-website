@@ -35,22 +35,32 @@ export default function Home() {
         }
       }}
       tabIndex={0}
-      className="min-h-screen font-medium grid"
-      style={{ gridTemplateRows: "1fr auto" }}
+      className="p-2 min-h-screen font-medium grid grid-rows-[1fr_auto]"
     >
-      <div className="h-full grid grid-cols-[400px_1fr]">
-        <div className="h-full flex flex-col">
+      <div className="grid grid-cols-[400px_1fr]">
+        <div className="flex flex-col">
+          <Block legend={"status"}>
+            <span className="text-lime-500">✔ </span>portfolio-website ⇒ main
+          </Block>
+
           {projectsList.map((b, i) => (
             <Block
+              legend={b.name}
               key={b.name}
-              className={currentBlock === i ? "border-lime-500" : ""}
-              onMouseEnter={() => setCurrnetBlock(i)}
+              className={`flex-1 ${
+                currentBlock === i ? "border-lime-500" : ""
+              }`}
+              onClick={() => setCurrnetBlock(i)}
             >
               {b.name}
             </Block>
           ))}
+          <Block></Block>
         </div>
-        <Block></Block>
+        <div className="m-0 grid grid-rows-[1fr_200px]">
+          <Block legend={"main-content"}></Block>
+          <Block legend={"command-log"}></Block>
+        </div>
       </div>
       <Block>
         Milosz <mark>nie okradl</mark> szefa i sie do tego <mark>przyznal</mark>
