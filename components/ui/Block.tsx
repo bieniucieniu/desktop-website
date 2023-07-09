@@ -9,7 +9,10 @@ export default function Block({
 }: {
   children?: ReactNode
   className?: string
-  legend?: string | [string, string]
+  legend?:
+    | ReactNode
+    | undefined
+    | [ReactNode | undefined, ReactNode | undefined]
 } & HTMLProps<HTMLFieldSetElement>) {
   return (
     <fieldset
@@ -26,7 +29,7 @@ export default function Block({
           <>
             <fieldset
               {...props}
-              className="absolute inset-0 rotate-180 border-none border-t-2"
+              className="absolute inset-0 rotate-180 border-t-2"
             >
               <legend className="m-0 p-0 leading-[0] rotate-180 mr-4">
                 {legend[1]}
