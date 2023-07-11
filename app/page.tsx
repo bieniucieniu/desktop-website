@@ -33,6 +33,7 @@ export default function Home() {
                 setCurrnetBlock(currentBlock - 1)
               }
             }
+            break
         }
       }}
       tabIndex={0}
@@ -49,7 +50,7 @@ export default function Home() {
               <p key={i}>{e.name}</p>
             ))}
           </Block>
-          <Block className="flex-1" legend={["contact", "contacts"]}></Block>
+          <Block className="flex-1" legend={"contact"}></Block>
         </div>
         <div className="m-0 grid grid-rows-[1fr_200px]">
           <Block legend={"main-content"}></Block>
