@@ -1,5 +1,6 @@
 "use client"
 import Block from "@/components/ui/Block"
+import { profile } from "console"
 import { useState } from "react"
 
 const projectsList: { name: string }[] = [
@@ -32,6 +33,7 @@ export default function Home() {
                 setCurrnetBlock(currentBlock - 1)
               }
             }
+            break
         }
       }}
       tabIndex={0}
@@ -42,20 +44,13 @@ export default function Home() {
           <Block legend={"status"}>
             <span className="text-lime-500">✔ </span>portfolio-website ⇒ main
           </Block>
-
-          {projectsList.map((b, i) => (
-            <Block
-              legend={b.name}
-              key={b.name}
-              className={`flex-1 ${
-                currentBlock === i ? "border-lime-500" : ""
-              }`}
-              onClick={() => setCurrnetBlock(i)}
-            >
-              {b.name}
-            </Block>
-          ))}
-          <Block></Block>
+          <Block className="flex-1" legend="about-me"></Block>
+          <Block className="flex-1" legend="projects">
+            {projectsList.map((e, i) => (
+              <p key={i}>{e.name}</p>
+            ))}
+          </Block>
+          <Block className="flex-1" legend={"contact"}></Block>
         </div>
         <div className="m-0 grid grid-rows-[1fr_200px]">
           <Block legend={"main-content"}></Block>
