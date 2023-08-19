@@ -1,3 +1,4 @@
+import { MainLayout } from "@/components/Main/MainLayout"
 import "./globals.css"
 import { JetBrains_Mono } from "next/font/google"
 
@@ -15,7 +16,9 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={jetBrainsMono.className}>{children}</body>
+			<body className={jetBrainsMono.className}>
+				<MainLayout>{children}</MainLayout>
+			</body>
 		</html>
 	)
 }
