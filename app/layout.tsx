@@ -1,8 +1,8 @@
 import { MainLayout } from "@/components/Main/MainLayout"
 import "./globals.css"
-import { JetBrains_Mono } from "next/font/google"
+import { VT323 } from "next/font/google"
 
-const jetBrainsMono = JetBrains_Mono({ weight: ["300", "400", "600"] })
+const vt323 = VT323({ weight: "400", subsets: ["latin"] })
 
 export const metadata = {
 	title: "i'm broke",
@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={jetBrainsMono.className}>
+			<body className={vt323.className}>
 				<MainLayout>{children}</MainLayout>
 			</body>
 		</html>
