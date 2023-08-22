@@ -1,7 +1,15 @@
+"use client"
 import { twMerge } from "tailwind-merge"
 import Clock from "./Clock"
 import MainMenu from "./MainMenu"
-export function Taskbar({ className }: { className?: string }) {
+import * as Separator from "@radix-ui/react-separator"
+export function Taskbar({
+  className,
+  children,
+}: {
+  className?: string
+  children?: React.ReactNode
+}) {
   return (
     <nav
       className={twMerge(
@@ -9,8 +17,14 @@ export function Taskbar({ className }: { className?: string }) {
         className
       )}
     >
-      <MainMenu />
-      <div></div>
+      <section className="flex flex-row gap-x-1">
+        <MainMenu />
+        <Separator.Root
+          orientation="vertical"
+          className="border-outset border my-0.5"
+        />
+        {children}
+      </section>
       <Clock />
     </nav>
   )
