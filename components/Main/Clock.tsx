@@ -18,9 +18,8 @@ function CalendarButton({ className }: { className?: string }) {
 export default function Clock() {
   const [time, setTime] = useState(new Date())
   useEffect(() => {
-    const i = setInterval(() => setTime(new Date()), 1000)
-    return clearInterval(i)
-  }, [])
+    setTimeout(() => setTime(new Date()), 10 * 1000)
+  }, [time])
   return (
     <p className="flex flex-row items-center gap-x-1 border-inset border-2 bg-zinc-300 text-black px-2">
       <CalendarButton className="h-4 w-4 " />
