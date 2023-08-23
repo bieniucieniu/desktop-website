@@ -65,6 +65,8 @@ function useWindowContext() {
 function useWindowConstraints() {
   const context = useContext(WindowConstraintsContext)
 
+  if (!window) return undefined
+
   if (!context?.constraints)
     return {
       top: 0,
@@ -184,19 +186,21 @@ export function Window({
   )
 
   const c = useWindowConstraints()
-  const constraints = ref.current
-    ? {
-        top: c.top,
-        left: c.left,
-        right: c.right - ref.current.clientWidth,
-        bottom: c.bottom - ref.current.clientHeight,
-      }
-    : {
-        top: c.top,
-        left: c.left,
-        right: c.right - 400,
-        bottom: c.bottom - 300,
-      }
+  const constraints = c
+    ? ref.current
+      ? {
+          top: c.top,
+          left: c.left,
+          right: c.right - ref.current.clientWidth,
+          bottom: c.bottom - ref.current.clientHeight,
+        }
+      : {
+          top: c.top,
+          left: c.left,
+          right: c.right - 400,
+          bottom: c.bottom - 300,
+        }
+    : undefined
 
   const x = useMotionValue(400)
   const y = useMotionValue(300)
