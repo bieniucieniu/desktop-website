@@ -1,6 +1,6 @@
 "use client"
 import { twJoin } from "tailwind-merge"
-import { Button } from "../ui/Button"
+import { Button, Link } from "../ui/Button"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 
 export default function MainMenu({ className }: { className?: string }) {
@@ -38,7 +38,7 @@ export default function MainMenu({ className }: { className?: string }) {
                           fill="currentColor"
                         />
                       </svg>
-                      programs
+                      Projects
                     </span>
                     <svg
                       fill="none"
@@ -54,7 +54,32 @@ export default function MainMenu({ className }: { className?: string }) {
                   </Button>
                 </DropdownMenu.SubTrigger>
                 <DropdownMenu.Portal>
-                  <DropdownMenu.SubContent />
+                  <DropdownMenu.SubContent className="bg-zinc-300 min-w-[120px] text-xl border-outset border-2 text-black flex flex-col">
+                    <DropdownMenu.Group>
+                      <DropdownMenu.Item>
+                        <Link
+                          className="w-full text-left"
+                          href="/projects?focus=breakout"
+                        >
+                          Breakout
+                        </Link>
+                      </DropdownMenu.Item>
+                      <DropdownMenu.Item>
+                        <Link
+                          className="w-full text-left"
+                          href="/projects?focus=braciabien"
+                        >
+                          Bracia Bien
+                        </Link>
+                      </DropdownMenu.Item>
+                    </DropdownMenu.Group>
+                    <DropdownMenu.Separator className="border-inset border mx-1" />
+                    <DropdownMenu.Item>
+                      <Link className="w-full text-left" href="/projects">
+                        all
+                      </Link>
+                    </DropdownMenu.Item>
+                  </DropdownMenu.SubContent>
                 </DropdownMenu.Portal>
               </DropdownMenu.Sub>
               <DropdownMenu.Item asChild>
