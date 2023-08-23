@@ -1,6 +1,6 @@
 "use client"
 import { twMerge } from "tailwind-merge"
-import { motion, useDragControls } from "framer-motion"
+import { HTMLMotionProps, motion, useDragControls } from "framer-motion"
 import { Button } from "./Button"
 import React, {
   createContext,
@@ -15,9 +15,11 @@ import React, {
 type WindowsMap = Map<
   string,
   {
+    name: string
     open: boolean
-    layoutId: string
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
     fullScreen: boolean
+    setFullScreen: React.Dispatch<React.SetStateAction<boolean>>
   }
 >
 
@@ -38,6 +40,19 @@ function useWindowContext() {
   return context
 }
 
+export function useWindows() {
+  const { windows } = useWindowContext()
+  function getWindowsControlls() {
+    return [...windows.keys()].map((id) => {
+      const win = windows.get(id)
+      if (!win) throw new Error("key exist but no window data of given id")
+      return { ...win, id }
+    })
+  }
+
+  return { getWindowsControlls }
+}
+
 export function WindowProvider({ children }: { children: React.ReactNode }) {
   const [windows, setWindows] = useState(new Map())
 
@@ -51,31 +66,43 @@ export function WindowProvider({ children }: { children: React.ReactNode }) {
 export function Window({
   children,
   className,
-  windowName,
-}: React.HTMLAttributes<HTMLDivElement> & { windowName?: React.ReactNode }) {
+  name,
+  defaultOpen,
+  ...props
+}: HTMLMotionProps<"div"> & {
+  name: string
+  defaultOpen?: boolean
+  children?: React.ReactNode
+}) {
   const dragControlls = useDragControls()
   const { windows, setWindows } = useWindowContext()
   const id = useId()
   const ref = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(defaultOpen ?? true)
+  const [fullScreen, setFullScreen] = useState(true)
 
   useEffect(() => {
-    if (windows.has(id)) throw new Error("window of given id exist")
-
     setWindows(
       new Map(
         windows.set(id, {
-          open: true,
-          layoutId: id,
-          fullScreen: false,
+          name,
+          open,
+          setOpen,
+          fullScreen,
+          setFullScreen,
         })
       )
     )
-    return () => {
+  }, [open, fullScreen])
+
+  useEffect(
+    () => () => {
       const s = windows.delete(id)
       if (s) setWindows(new Map(windows))
-      else console.log("no window with given id")
-    }
-  }, [])
+      else throw new Error("no window with given id")
+    },
+    []
+  )
 
   const { right, bottom } = useMemo(() => {
     if (ref.current)
@@ -87,23 +114,26 @@ export function Window({
       return { right: window.innerWidth - 400, bottom: window.innerWidth - 400 }
   }, [ref.current])
 
+  if (!open) return null
+
   return (
     <motion.div
+      layoutId={id}
       ref={ref}
       drag
       dragControls={dragControlls}
       dragListener={false}
       dragMomentum={false}
-      dragElastic={0}
+      dragElastic={0.1}
       dragConstraints={{
         top: 0,
         left: 0,
         right,
         bottom,
       }}
-      transition={{ ease: "linear" }}
       style={{ position: "absolute", minWidth: "400px", x: "50%", y: "50%" }}
       className="border-outset border-2 border-zinc-300 select-none"
+      {...props}
     >
       <nav
         className={twMerge(
@@ -112,23 +142,17 @@ export function Window({
         )}
         onPointerDown={(e) => dragControlls.start(e)}
       >
-        <h3 className="text-zinc-700 pl-2 text-xl font-bold">
-          {windowName ?? "new window"}
-        </h3>
-        <section className="flex gap-x-1 pr-1.5">
-          <Button className="border-2 border-outset">
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path d="M2 3h20v18H2V3zm18 16V7H4v12h16z" fill="currentColor" />
-            </svg>
+        <h3 className="text-zinc-700 pl-2 text-xl font-bold">{name}</h3>
+        <section className="flex gap-x-1 pr-1 py-1">
+          <Button
+            className="border-2 border-outset font-bold w-[28px]"
+            onClick={() => setOpen(false)}
+          >
+            __
           </Button>
           <Button className="border-2 border-outset">
             <svg
-              className="h-4 w-4"
+              className="h-3 w-4"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -142,7 +166,7 @@ export function Window({
           </Button>
           <Button className="border-2 border-outset">
             <svg
-              className="h-4 w-4"
+              className="h-3 w-4"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
