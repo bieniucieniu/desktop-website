@@ -121,10 +121,10 @@ export function Window({
   asChild = false,
   onClose,
   onPointerDown,
-  customId,
+  customId = undefined,
   ...props
 }: HTMLMotionProps<"div"> & {
-  customId: string
+  customId?: string
   name: string
   defaultOpen?: boolean
   defaultFullScreen?: boolean
@@ -230,12 +230,12 @@ export function Window({
     >
       <nav
         className={twMerge(
-          "flex select-none flex-row justify-between items-center w-full bg-gray-300",
+          "flex select-none flex-row justify-between items-center w-full border-outset border-b-2 bg-gray-400",
           className
         )}
         onPointerDown={(e) => dragControlls.start(e)}
       >
-        <h3 className="text-zinc-700 pl-2 text-xl font-bold">{name}</h3>
+        <h3 className="text-zinc-800 pl-2 text-xl font-bold">{name}</h3>
         <section className="flex gap-x-1 pr-1 py-1">
           <Button
             className="border-2 border-outset font-bold w-[28px]"
