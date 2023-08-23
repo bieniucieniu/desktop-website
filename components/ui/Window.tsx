@@ -62,7 +62,7 @@ function useWindowContext() {
   return context
 }
 
-function getWindowConstraints() {
+function useWindowConstraints() {
   const context = useContext(WindowConstraintsContext)
 
   if (!context?.constraints)
@@ -78,7 +78,7 @@ function getWindowConstraints() {
 
 export function useWindows() {
   const { windows, setWindows } = useWindowContext()
-  function getWindowsControlls() {
+  function useWindowsControlls() {
     return [...windows.keys()].map((id) => {
       const win = windows.get(id)
       if (!win) throw new Error("key exist but no window data of given id")
@@ -99,7 +99,7 @@ export function useWindows() {
     setWindows(new Map(windows))
   }
 
-  return { getWindowsControlls, focusWindow }
+  return { useWindowsControlls, focusWindow }
 }
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
@@ -134,7 +134,8 @@ export function Window({
 }) {
   const dragControlls = useDragControls()
   const { windows, setWindows } = useWindowContext()
-  const id = customId ?? useId()
+  const i = useId()
+  const id = customId ?? i
   const ref = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(defaultOpen)
   const [fullScreen, setFullScreen] = useState(defaultFullScreen)
@@ -142,7 +143,7 @@ export function Window({
     const w = windows.get(id)
     if (!w) return
     return w.layer
-  }, [windows])
+  }, [windows, id])
 
   function putWindowOnTop() {
     const win = windows.get(id)
@@ -171,7 +172,7 @@ export function Window({
         })
       )
     )
-  }, [open, fullScreen])
+  }, [open, fullScreen, windows, id])
 
   useEffect(
     () => () => {
@@ -179,10 +180,10 @@ export function Window({
       if (s) setWindows(new Map(windows))
       else throw new Error("no window with given id")
     },
-    []
+    [windows]
   )
 
-  const c = getWindowConstraints()
+  const c = useWindowConstraints()
   const constraints = ref.current
     ? {
         top: c.top,
@@ -304,7 +305,7 @@ export function WindowsContainer({
     if (ref.current) {
       setConstraints(ref.current.getBoundingClientRect())
     }
-  }, [ref.current])
+  }, [])
   return (
     <WindowConstraintsContext.Provider value={{ constraints }}>
       <div {...props} className={twMerge("relative", className)} ref={ref}>
