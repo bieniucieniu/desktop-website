@@ -12,6 +12,7 @@ import React, {
   useContext,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
 } from "react"
@@ -122,14 +123,24 @@ export function Window({
   const ref = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(defaultOpen)
   const [fullScreen, setFullScreen] = useState(defaultFullScreen)
+  const layer = useMemo(() => {
+    const w = windows.get(id)
+    if (!w) return
+    return w.layer
+  }, [windows])
 
   function putOnTop() {
     const win = windows.get(id)
     if (!win) return
-    windows.forEach((w) => {
-      if (win.layer < w.layer) w.layer = w.layer - 1
-      if (win.layer == w.layer) w.layer = windows.size
+    const oldLayer = win.layer
+    win.layer = windows.size
+
+    windows.forEach((w, key) => {
+      if (key === id) return
+      if (w.layer > oldLayer) w.layer -= 1
     })
+
+    setWindows(new Map(windows))
   }
 
   useEffect(() => {
@@ -194,6 +205,7 @@ export function Window({
         inset: fullScreen ? 0 : "",
         x: fullScreen ? 0 : x,
         y: fullScreen ? 0 : y,
+        zIndex: layer,
       }}
       {...props}
       onPointerDown={(e) => {
@@ -240,23 +252,24 @@ export function Window({
               />
             </svg>
           </Button>
-          <Button
-            className="border-2 border-outset"
-            disabled={onClose === undefined}
-            onClick={() => onClose && onClose(id)}
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
+          {onClose ? (
+            <Button
+              className="border-2 border-outset"
+              onClick={() => onClose(id)}
             >
-              <path
-                d="M5 5h2v2H5V5zm4 4H7V7h2v2zm2 2H9V9h2v2zm2 0h-2v2H9v2H7v2H5v2h2v-2h2v-2h2v-2h2v2h2v2h2v2h2v-2h-2v-2h-2v-2h-2v-2zm2-2v2h-2V9h2zm2-2v2h-2V7h2zm0 0V5h2v2h-2z"
-                fill="currentColor"
-              />
-            </svg>
-          </Button>
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M5 5h2v2H5V5zm4 4H7V7h2v2zm2 2H9V9h2v2zm2 0h-2v2H9v2H7v2H5v2h2v-2h2v-2h2v-2h2v2h2v2h2v2h2v-2h-2v-2h-2v-2h-2v-2zm2-2v2h-2V9h2zm2-2v2h-2V7h2zm0 0V5h2v2h-2z"
+                  fill="currentColor"
+                />
+              </svg>
+            </Button>
+          ) : null}
         </section>
       </nav>
       <Slot>{children}</Slot>
