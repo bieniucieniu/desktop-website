@@ -1,16 +1,22 @@
 "use client"
 import { twMerge } from "tailwind-merge"
-import { HTMLMotionProps, motion, useDragControls } from "framer-motion"
+import {
+  HTMLMotionProps,
+  motion,
+  useDragControls,
+  useMotionValue,
+} from "framer-motion"
 import { Button } from "./Button"
 import React, {
   createContext,
   useContext,
   useEffect,
   useId,
-  useMemo,
   useRef,
   useState,
 } from "react"
+
+import { Slot } from "@radix-ui/react-slot"
 
 type WindowsMap = Map<
   string,
@@ -28,7 +34,21 @@ type WindowContext = {
   setWindows: React.Dispatch<React.SetStateAction<WindowsMap>>
 }
 
+type Boundry = {
+  top: number
+  left: number
+  right: number
+  bottom: number
+}
+
+type WindowBoundryContext = {
+  constraints: Boundry | undefined
+}
+
 const WindowContext = createContext<WindowContext | null>(null)
+const WindowConstraintsContext = createContext<WindowBoundryContext | null>(
+  null
+)
 
 function useWindowContext() {
   const context = useContext(WindowContext)
@@ -38,6 +58,20 @@ function useWindowContext() {
   }
 
   return context
+}
+
+function getWindowConstraints(): Boundry {
+  const context = useContext(WindowConstraintsContext)
+
+  if (!context?.constraints)
+    return {
+      top: 0,
+      left: 0,
+      right: window.innerWidth,
+      bottom: window.innerHeight,
+    }
+
+  return context.constraints
 }
 
 export function useWindows() {
@@ -67,19 +101,25 @@ export function Window({
   children,
   className,
   name,
-  defaultOpen,
+  defaultOpen = true,
+  defaultFullScreen = false,
+  asChild = false,
+  onClose,
   ...props
 }: HTMLMotionProps<"div"> & {
   name: string
   defaultOpen?: boolean
-  children?: React.ReactNode
+  defaultFullScreen?: boolean
+  children?: React.ReactElement
+  asChild?: boolean
+  onClose?: (id: string) => void
 }) {
   const dragControlls = useDragControls()
   const { windows, setWindows } = useWindowContext()
   const id = useId()
   const ref = useRef<HTMLDivElement>(null)
-  const [open, setOpen] = useState(defaultOpen ?? true)
-  const [fullScreen, setFullScreen] = useState(true)
+  const [open, setOpen] = useState(defaultOpen)
+  const [fullScreen, setFullScreen] = useState(defaultFullScreen)
 
   useEffect(() => {
     setWindows(
@@ -104,15 +144,23 @@ export function Window({
     []
   )
 
-  const { right, bottom } = useMemo(() => {
-    if (ref.current)
-      return {
-        right: window.innerWidth - ref.current.clientWidth,
-        bottom: window.innerHeight - ref.current.clientHeight,
+  const c = getWindowConstraints()
+  const constraints = ref.current
+    ? {
+        top: c.top,
+        left: c.left,
+        right: c.right - ref.current.clientWidth,
+        bottom: c.bottom - ref.current.clientHeight,
       }
-    else
-      return { right: window.innerWidth - 400, bottom: window.innerWidth - 400 }
-  }, [ref.current])
+    : {
+        top: c.top,
+        left: c.left,
+        right: c.right - 400,
+        bottom: c.bottom - 300,
+      }
+
+  const x = useMotionValue(400)
+  const y = useMotionValue(300)
 
   if (!open) return null
 
@@ -120,18 +168,20 @@ export function Window({
     <motion.div
       layoutId={id}
       ref={ref}
-      drag
+      drag={!fullScreen}
       dragControls={dragControlls}
       dragListener={false}
       dragMomentum={false}
       dragElastic={0.1}
-      dragConstraints={{
-        top: 0,
-        left: 0,
-        right,
-        bottom,
+      dragConstraints={constraints}
+      style={{
+        position: "absolute",
+        minWidth: "400px",
+        minHeight: "300px",
+        inset: fullScreen ? 0 : "",
+        x: fullScreen ? 0 : x,
+        y: fullScreen ? 0 : y,
       }}
-      style={{ position: "absolute", minWidth: "400px", x: "50%", y: "50%" }}
       className="border-outset border-2 border-zinc-300 select-none"
       {...props}
     >
@@ -146,13 +196,23 @@ export function Window({
         <section className="flex gap-x-1 pr-1 py-1">
           <Button
             className="border-2 border-outset font-bold w-[28px]"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false)
+              if (ref.current) {
+                const b = ref.current.getBoundingClientRect()
+                x.set(b.left)
+                y.set(b.top)
+              }
+            }}
           >
             __
           </Button>
-          <Button className="border-2 border-outset">
+          <Button
+            className="border-2 border-outset"
+            onClick={() => setFullScreen((o) => !o)}
+          >
             <svg
-              className="h-3 w-4"
+              className="h-4 w-4"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -164,9 +224,13 @@ export function Window({
               />
             </svg>
           </Button>
-          <Button className="border-2 border-outset">
+          <Button
+            className="border-2 border-outset"
+            disabled={onClose === undefined}
+            onClick={() => onClose && onClose(id)}
+          >
             <svg
-              className="h-3 w-4"
+              className="h-4 w-4"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -179,7 +243,29 @@ export function Window({
           </Button>
         </section>
       </nav>
-      <main className="min-h-[300px]">{children}</main>
+      <Slot>{children}</Slot>
     </motion.div>
+  )
+}
+
+export function WindowsContainer({
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [constraints, setConstraints] = useState<Boundry | undefined>(undefined)
+
+  useEffect(() => {
+    if (ref.current) {
+      setConstraints(ref.current.getBoundingClientRect())
+    }
+  }, [ref.current])
+  return (
+    <WindowConstraintsContext.Provider value={{ constraints }}>
+      <div {...props} className={twMerge("relative", className)} ref={ref}>
+        {children}
+      </div>
+    </WindowConstraintsContext.Provider>
   )
 }
