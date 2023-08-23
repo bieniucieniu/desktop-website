@@ -23,8 +23,9 @@ export function Taskbar({ className }: { className?: string }) {
           className="border-outset border my-0.5"
         />
 
-        {controlls.map(({ setOpen, open, name }) => (
+        {controlls.map(({ setOpen, open, name, id }) => (
           <Button
+            key={id}
             onClick={() => setOpen((o) => !o)}
             className={twJoin(
               "relative",
