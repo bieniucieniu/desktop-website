@@ -64,18 +64,18 @@ function useWindowContext() {
 
 function useWindowConstraints() {
   const context = useContext(WindowConstraintsContext)
+  return useMemo(() => {
+    if (!window) return undefined
+    if (!context?.constraints)
+      return {
+        top: 0,
+        left: 0,
+        right: window.innerWidth,
+        bottom: window.innerHeight,
+      }
 
-  if (!window) return undefined
-
-  if (!context?.constraints)
-    return {
-      top: 0,
-      left: 0,
-      right: window.innerWidth,
-      bottom: window.innerHeight,
-    }
-
-  return context.constraints
+    return context.constraints
+  }, [])
 }
 
 export function useWindows() {
