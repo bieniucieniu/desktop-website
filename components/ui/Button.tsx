@@ -1,5 +1,6 @@
 import { forwardRef } from "react"
 import { twMerge } from "tailwind-merge"
+import NextLink from "next/link"
 
 const Button = forwardRef<
   HTMLButtonElement,
@@ -18,4 +19,21 @@ const Button = forwardRef<
 })
 Button.displayName = "Button"
 
-export { Button }
+const Link = forwardRef<
+  HTMLAnchorElement,
+  React.HTMLAttributes<HTMLAnchorElement> & { href: string }
+>(({ className, ...props }, ref) => {
+  return (
+    <NextLink
+      className={twMerge(
+        "active-border-button border-2 border-solid bg-zinc-300 text-black px-1 select-none border-zinc-300",
+        className
+      )}
+      ref={ref}
+      {...props}
+    />
+  )
+})
+Link.displayName = "Link"
+
+export { Button, Link }
