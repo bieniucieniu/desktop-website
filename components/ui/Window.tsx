@@ -21,6 +21,7 @@ import { Slot } from "@radix-ui/react-slot"
 type WindowsMap = Map<
   string,
   {
+    layer: number
     name: string
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -105,6 +106,7 @@ export function Window({
   defaultFullScreen = false,
   asChild = false,
   onClose,
+  onPointerDown,
   ...props
 }: HTMLMotionProps<"div"> & {
   name: string
@@ -121,10 +123,20 @@ export function Window({
   const [open, setOpen] = useState(defaultOpen)
   const [fullScreen, setFullScreen] = useState(defaultFullScreen)
 
+  function putOnTop() {
+    const win = windows.get(id)
+    if (!win) return
+    windows.forEach((w) => {
+      if (win.layer < w.layer) w.layer = w.layer - 1
+      if (win.layer == w.layer) w.layer = windows.size
+    })
+  }
+
   useEffect(() => {
     setWindows(
       new Map(
         windows.set(id, {
+          layer: windows.size + 1,
           name,
           open,
           setOpen,
@@ -166,6 +178,7 @@ export function Window({
 
   return (
     <motion.div
+      className="border-outset border-2 border-zinc-300 select-none"
       layoutId={id}
       ref={ref}
       drag={!fullScreen}
@@ -182,12 +195,15 @@ export function Window({
         x: fullScreen ? 0 : x,
         y: fullScreen ? 0 : y,
       }}
-      className="border-outset border-2 border-zinc-300 select-none"
       {...props}
+      onPointerDown={(e) => {
+        putOnTop()
+        onPointerDown && onPointerDown(e)
+      }}
     >
       <nav
         className={twMerge(
-          "flex flex-row justify-between items-center w-full bg-gray-300",
+          "flex select-none flex-row justify-between items-center w-full bg-gray-300",
           className
         )}
         onPointerDown={(e) => dragControlls.start(e)}
