@@ -1,3 +1,9 @@
+import { Window } from "@/components/ui/Window"
+
 export default function Home() {
-  return <></>
+  return (
+    <>
+      <Window name="dasda" />
+    </>
+  )
 }
