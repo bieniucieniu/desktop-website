@@ -78,7 +78,7 @@ function useWindowConstraints() {
 
 export function useWindows() {
   const { windows, setWindows } = useWindowContext()
-  function useWindowsControlls() {
+  function getWindowsControlls() {
     return [...windows.keys()].map((id) => {
       const win = windows.get(id)
       if (!win) throw new Error("key exist but no window data of given id")
@@ -99,7 +99,7 @@ export function useWindows() {
     setWindows(new Map(windows))
   }
 
-  return { useWindowsControlls, focusWindow }
+  return { getWindowsControlls, focusWindow }
 }
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
