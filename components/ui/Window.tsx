@@ -62,7 +62,7 @@ function useWindowContext() {
   return context
 }
 
-function getWindowConstraints(): Boundry {
+function getWindowConstraints() {
   const context = useContext(WindowConstraintsContext)
 
   if (!context?.constraints)
@@ -77,7 +77,7 @@ function getWindowConstraints(): Boundry {
 }
 
 export function useWindows() {
-  const { windows } = useWindowContext()
+  const { windows, setWindows } = useWindowContext()
   function getWindowsControlls() {
     return [...windows.keys()].map((id) => {
       const win = windows.get(id)
@@ -85,8 +85,21 @@ export function useWindows() {
       return { ...win, id }
     })
   }
+  function focusWindow(id: string) {
+    const win = windows.get(id)
+    if (!win) return
+    const oldLayer = win.layer
+    win.layer = windows.size
 
-  return { getWindowsControlls }
+    windows.forEach((w, key) => {
+      if (key === id) return
+      if (w.layer > oldLayer) w.layer -= 1
+    })
+
+    setWindows(new Map(windows))
+  }
+
+  return { getWindowsControlls, focusWindow }
 }
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
@@ -108,8 +121,10 @@ export function Window({
   asChild = false,
   onClose,
   onPointerDown,
+  customId,
   ...props
 }: HTMLMotionProps<"div"> & {
+  customId: string
   name: string
   defaultOpen?: boolean
   defaultFullScreen?: boolean
@@ -119,7 +134,7 @@ export function Window({
 }) {
   const dragControlls = useDragControls()
   const { windows, setWindows } = useWindowContext()
-  const id = useId()
+  const id = customId ?? useId()
   const ref = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(defaultOpen)
   const [fullScreen, setFullScreen] = useState(defaultFullScreen)
@@ -129,7 +144,7 @@ export function Window({
     return w.layer
   }, [windows])
 
-  function putOnTop() {
+  function putWindowOnTop() {
     const win = windows.get(id)
     if (!win) return
     const oldLayer = win.layer
@@ -209,7 +224,7 @@ export function Window({
       }}
       {...props}
       onPointerDown={(e) => {
-        putOnTop()
+        putWindowOnTop()
         onPointerDown && onPointerDown(e)
       }}
     >
