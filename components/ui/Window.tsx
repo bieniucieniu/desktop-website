@@ -18,6 +18,7 @@ import React, {
 } from "react"
 
 import { Slot } from "@radix-ui/react-slot"
+import { removeListener } from "process"
 
 type WindowsMap = Map<
   string,
@@ -193,8 +194,12 @@ export function Window({
         }
     : undefined
 
-  const x = useMotionValue(400)
-  const y = useMotionValue(300)
+  const x = useMotionValue(
+    constraints && constraints.right - constraints.left < 600 ? 0 : 200
+  )
+  const y = useMotionValue(
+    constraints && constraints.bottom - constraints.top < 600 ? 0 : 200
+  )
 
   if (!open) return null
 
@@ -214,8 +219,8 @@ export function Window({
         minWidth: "400px",
         minHeight: "300px",
         inset: fullScreen ? 0 : "",
-        x: fullScreen ? 0 : x,
-        y: fullScreen ? 0 : y,
+        x: fullScreen ? undefined : x,
+        y: fullScreen ? undefined : y,
         zIndex: layer,
       }}
       {...props}
@@ -247,7 +252,7 @@ export function Window({
             __
           </Button>
           <Button
-            className="border-2 border-outset"
+            className="hidden lg:inline-block border-2 border-outset"
             onClick={() => setFullScreen((o) => !o)}
           >
             <svg
