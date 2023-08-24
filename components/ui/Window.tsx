@@ -2,9 +2,12 @@
 import { twMerge } from "tailwind-merge"
 import {
   HTMLMotionProps,
+  MotionValue,
   motion,
+  useAnimationControls,
   useDragControls,
   useMotionValue,
+  useTransform,
 } from "framer-motion"
 import { Button } from "./Button"
 import React, {
@@ -12,25 +15,20 @@ import React, {
   useContext,
   useEffect,
   useId,
-  useMemo,
   useRef,
   useState,
 } from "react"
 
 import { Slot } from "@radix-ui/react-slot"
-import { removeListener } from "process"
 
-type WindowsMap = Map<
-  string,
-  {
-    layer: number
-    name: string
-    open: boolean
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
-    fullScreen: boolean
-    setFullScreen: React.Dispatch<React.SetStateAction<boolean>>
-  }
->
+type WindowProps = {
+  name: string
+  layer: MotionValue<number>
+  open: MotionValue<boolean>
+  fullScreen: MotionValue<boolean>
+}
+
+type WindowsMap = Map<string, WindowProps>
 
 type WindowContext = {
   windows: WindowsMap
@@ -45,7 +43,7 @@ type Boundry = {
 }
 
 type WindowBoundryContext = {
-  constraints: Boundry | undefined
+  constraints: MotionValue<Boundry | undefined>
 }
 
 const WindowContext = createContext<WindowContext | null>(null)
@@ -63,7 +61,7 @@ function useWindowContext() {
   return context
 }
 
-function useWindowConstraints() {
+function useWindowBoundry() {
   const context = useContext(WindowConstraintsContext)
   if (!context) return undefined
 
@@ -71,29 +69,16 @@ function useWindowConstraints() {
 }
 
 export function useWindows() {
-  const { windows, setWindows } = useWindowContext()
-  function getWindowsControlls() {
-    return [...windows.keys()].map((id) => {
-      const win = windows.get(id)
-      if (!win) throw new Error("key exist but no window data of given id")
-      return { ...win, id }
-    })
-  }
-  function focusWindow(id: string) {
-    const win = windows.get(id)
-    if (!win) return
-    const oldLayer = win.layer
-    win.layer = windows.size
+  const { windows } = useWindowContext()
 
-    windows.forEach((w, key) => {
-      if (key === id) return
-      if (w.layer > oldLayer) w.layer -= 1
-    })
-
-    setWindows(new Map(windows))
-  }
-
-  return { getWindowsControlls, focusWindow }
+  const WindowsControlls = [...windows.keys()].map((id) => {
+    const w = windows.get(id)
+    return {
+      id,
+      ...w,
+    }
+  })
+  return { WindowsControlls }
 }
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
@@ -130,102 +115,126 @@ export function Window({
   const { windows, setWindows } = useWindowContext()
   const i = useId()
   const id = customId ?? i
-  const ref = useRef<HTMLDivElement>(null)
-  const [open, setOpen] = useState(defaultOpen)
-  const [fullScreen, setFullScreen] = useState(defaultFullScreen)
-  const layer = useMemo(() => {
-    const w = windows.get(id)
-    if (!w) return
-    return w.layer
-  }, [windows, id])
+  const open = useMotionValue<boolean>(defaultOpen ?? true)
+  const fullScreen = useMotionValue<boolean>(
+    defaultFullScreen ?? window.innerWidth < 1024 ?? false
+  )
 
-  function putWindowOnTop() {
+  const layer = useMotionValue<number>(windows.size + 1)
+
+  useEffect(() => {
+    windows.set(id, {
+      open,
+      fullScreen,
+      name,
+      layer,
+    })
+    setWindows(new Map(windows))
+
+    return () => {
+      if (!windows.has(id)) return
+      windows.delete(id)
+      setWindows(new Map(windows))
+    }
+  }, [])
+
+  function focusWindow() {
     const win = windows.get(id)
     if (!win) return
-    const oldLayer = win.layer
-    win.layer = windows.size
+    const oldLayer = win.layer.get()
+    win.layer.set(windows.size)
 
     windows.forEach((w, key) => {
       if (key === id) return
-      if (w.layer > oldLayer) w.layer -= 1
+      const l = w.layer.get()
+      if (l > oldLayer) {
+        w.layer.set(l - 1)
+      }
     })
 
     setWindows(new Map(windows))
   }
 
-  useEffect(() => {
-    setWindows(
-      new Map(
-        windows.set(id, {
-          layer: windows.size + 1,
-          name,
-          open,
-          setOpen,
-          fullScreen,
-          setFullScreen,
-        })
-      )
-    )
-  }, [open, fullScreen, windows, id])
+  const ref = useRef<HTMLDivElement>(null)
 
-  useEffect(
-    () => () => {
-      const s = windows.delete(id)
-      if (s) setWindows(new Map(windows))
-      else throw new Error("no window with given id")
-    },
-    [windows]
-  )
+  const boundry = useWindowBoundry()
+  const constraints = useTransform(() => {
+    const c = boundry?.get()
+    if (!c) return undefined
+    if (ref.current) {
+      return {
+        top: c.top,
+        left: c.left,
+        right: c.right - ref.current.clientWidth,
+        bottom: c.bottom - ref.current.clientHeight,
+      }
+    }
+    return {
+      top: c.top,
+      left: c.left,
+      right: c.right - 400,
+      bottom: c.bottom - 300,
+    }
+  })
 
-  const c = useWindowConstraints()
-  const constraints = c
-    ? ref.current
-      ? {
-          top: c.top,
-          left: c.left,
-          right: c.right - ref.current.clientWidth,
-          bottom: c.bottom - ref.current.clientHeight,
-        }
-      : {
-          top: c.top,
-          left: c.left,
-          right: c.right - 400,
-          bottom: c.bottom - 300,
-        }
-    : undefined
+  const inset = useTransform(() => {
+    if (fullScreen.get()) return 0
+    return "auto"
+  })
+  const animationControls = useAnimationControls()
+  const lastX = useMotionValue(0)
+  const lastY = useMotionValue(0)
 
-  const x = useMotionValue(
-    constraints && constraints.right - constraints.left < 600 ? 0 : 200
-  )
-  const y = useMotionValue(
-    constraints && constraints.bottom - constraints.top < 600 ? 0 : 200
-  )
+  fullScreen.on("change", (fs) => {
+    if (fs === true)
+      return animationControls.set({
+        x: undefined,
+        y: undefined,
+      })
 
-  if (!open) return null
+    if (fs === false)
+      return animationControls.set({
+        x: lastX.get(),
+        y: lastY.get(),
+      })
+  })
+  const visibility = useTransform(() => (open.get() ? "visible" : "hidden"))
 
   return (
     <motion.div
+      animate={animationControls}
       className="border-outset border-2 border-zinc-300 select-none"
       layoutId={id}
       ref={ref}
-      drag={!fullScreen}
+      drag
       dragControls={dragControlls}
       dragListener={false}
       dragMomentum={false}
       dragElastic={0.1}
-      dragConstraints={constraints}
+      dragConstraints={constraints.get()}
+      onDragEnd={(_, info) => {
+        const c = constraints.get()
+        const { x, y } = info.point
+        if (c) {
+          lastX.set(x > c.right ? c.right : x < c.left ? c.left : x)
+          lastY.set(y > c.bottom ? c.bottom : y < c.top ? c.top : y)
+        } else {
+          lastX.set(x)
+          lastY.set(y)
+        }
+      }}
       style={{
+        touchAction: "none",
         position: "absolute",
         minWidth: "400px",
         minHeight: "300px",
-        inset: fullScreen ? 0 : "",
-        x: fullScreen ? undefined : x,
-        y: fullScreen ? undefined : y,
+        inset,
         zIndex: layer,
+        visibility,
       }}
       {...props}
       onPointerDown={(e) => {
-        putWindowOnTop()
+        focusWindow()
         onPointerDown && onPointerDown(e)
       }}
     >
@@ -234,26 +243,23 @@ export function Window({
           "flex select-none flex-row justify-between items-center w-full border-outset border-b-2 bg-gray-400",
           className
         )}
-        onPointerDown={(e) => dragControlls.start(e)}
+        onPointerDown={(e) => {
+          if (!fullScreen.get()) dragControlls.start(e)
+        }}
       >
         <h3 className="text-zinc-800 pl-2 text-xl font-bold">{name}</h3>
         <section className="flex gap-x-1 pr-1 py-1">
           <Button
             className="border-2 border-outset font-bold w-[28px]"
             onClick={() => {
-              setOpen(false)
-              if (ref.current) {
-                const b = ref.current.getBoundingClientRect()
-                x.set(b.left)
-                y.set(b.top)
-              }
+              open.set(false)
             }}
           >
             __
           </Button>
           <Button
             className="hidden lg:inline-block border-2 border-outset"
-            onClick={() => setFullScreen((o) => !o)}
+            onClick={() => fullScreen.set(!fullScreen.get())}
           >
             <svg
               className="h-4 w-4"
@@ -299,11 +305,11 @@ export function WindowsContainer({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const ref = useRef<HTMLDivElement>(null)
-  const [constraints, setConstraints] = useState<Boundry | undefined>(undefined)
+  const constraints = useMotionValue<Boundry | undefined>(undefined)
 
   useEffect(() => {
     if (ref.current) {
-      setConstraints(ref.current.getBoundingClientRect())
+      constraints.set(ref.current.getBoundingClientRect())
     }
   }, [])
   return (
