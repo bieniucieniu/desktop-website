@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react"
-import { useWindows } from "../ui/Window"
 
 type Window = {
   name: string
@@ -31,14 +30,12 @@ export function MainContextProvider({
   children: React.ReactNode
 }) {
   const [windows, setWindows] = useState<Window[]>([])
-  const { focusWindow } = useWindows()
 
   function openWindow({ name, content, customId = undefined }: Window) {
     if (
       customId !== undefined &&
       windows.find((w) => w.customId === customId)
     ) {
-      focusWindow(customId)
       return
     }
     windows.push({ customId, name, content })
