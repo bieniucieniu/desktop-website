@@ -1,14 +1,29 @@
 "use client"
-import { twJoin, twMerge } from "tailwind-merge"
+import { twMerge } from "tailwind-merge"
 import Clock from "./Clock"
 import MainMenu from "./MainMenu"
 import * as Separator from "@radix-ui/react-separator"
 import { useWindows } from "../ui/Window"
 import { Button } from "../ui/Button"
-import { useMemo } from "react"
+import { useTransform } from "framer-motion"
+
+function WindowButton({
+  style,
+  length,
+  layer,
+}: Parameters<typeof Button>[0] & {
+  layer: { get: () => number } | undefined
+  length: number
+}) {
+  const backgroundColor = useTransform(() =>
+    layer?.get() === length ? "aqua" : undefined
+  )
+
+  return <Button style={{ backgroundColor, ...style }} />
+}
+
 export function Taskbar({ className }: { className?: string }) {
-  const { getWindowsControlls } = useWindows()
-  const controlls = useMemo(() => getWindowsControlls(), [getWindowsControlls])
+  const { WindowsControlls } = useWindows()
   return (
     <nav
       className={twMerge(
@@ -23,17 +38,14 @@ export function Taskbar({ className }: { className?: string }) {
           className="border-outset border my-0.5"
         />
 
-        {controlls.map(({ setOpen, open, name, id }) => (
-          <Button
-            key={id}
-            onClick={() => setOpen((o) => !o)}
-            className={twJoin(
-              "relative",
-              open ? "border-inset" : "border-outset"
-            )}
+        {WindowsControlls.map((e) => (
+          <WindowButton
+            key={e.id}
+            layer={e.layer}
+            length={WindowsControlls.length}
           >
-            {name}
-          </Button>
+            {e.name}
+          </WindowButton>
         ))}
       </section>
       <Clock />
