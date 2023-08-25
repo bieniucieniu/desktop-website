@@ -34,12 +34,12 @@ export function Taskbar({ className }: { className?: string }) {
   return (
     <nav
       className={twMerge(
-        "flex flex-row justify-between border-taskbar border-2 bg-zinc-300 py-0.5 px-2 z-40",
+        "flex flex-row justify-between border-taskbar border-2 bg-zinc-300 py-0.5 px-2",
         className
       )}
     >
       <section className="flex flex-row gap-x-1">
-        <MainMenu />
+        <MainMenu className="z-50" />
         <Separator.Root
           orientation="vertical"
           className="border-outset border my-0.5"
