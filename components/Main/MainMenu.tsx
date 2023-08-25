@@ -26,7 +26,7 @@ export default function MainMenu({ className }: { className?: string }) {
               <DropdownMenu.Sub>
                 <DropdownMenu.SubTrigger asChild>
                   <Button className="flex flex-row items-center justify-between w-full">
-                    <span className="flex flex-row items-center gap-1">
+                    <span className="flex flex-row items-center gap-1 flex-1">
                       <svg
                         className="h-6 w-6"
                         fill="none"
@@ -54,36 +54,37 @@ export default function MainMenu({ className }: { className?: string }) {
                   </Button>
                 </DropdownMenu.SubTrigger>
                 <DropdownMenu.Portal>
-                  <DropdownMenu.SubContent className="bg-zinc-300 min-w-[120px] text-xl border-outset border-2 text-black flex flex-col">
-                    <DropdownMenu.Group>
-                      <DropdownMenu.Item>
-                        <Link
-                          className="w-full text-left"
-                          href="/projects?focus=breakout"
-                        >
-                          Breakout
-                        </Link>
-                      </DropdownMenu.Item>
-                      <DropdownMenu.Item>
-                        <Link
-                          className="w-full text-left"
-                          href="/projects?focus=braciabien"
-                        >
-                          Bracia Bien
-                        </Link>
-                      </DropdownMenu.Item>
-                    </DropdownMenu.Group>
+                  <DropdownMenu.SubContent className="bg-zinc-300 min-w-[120px] text-xl border-outset border-2 text-black flex flex-col items-stretch justify-stretch">
+                    <DropdownMenu.Item asChild>
+                      <Link
+                        className="text-left"
+                        href="/projects?focus=breakout"
+                      >
+                        Breakout
+                      </Link>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item asChild>
+                      <Link
+                        className="text-left "
+                        href="/projects?focus=braciabien"
+                      >
+                        Bracia Bien
+                      </Link>
+                    </DropdownMenu.Item>
                     <DropdownMenu.Separator className="border-inset border mx-1" />
-                    <DropdownMenu.Item>
-                      <Link className="w-full text-left" href="/projects">
-                        all
+                    <DropdownMenu.Item asChild>
+                      <Link className="text-left " href="/projects">
+                        about
                       </Link>
                     </DropdownMenu.Item>
                   </DropdownMenu.SubContent>
                 </DropdownMenu.Portal>
               </DropdownMenu.Sub>
               <DropdownMenu.Item asChild>
-                <Button className="flex flex-row items-center justify-start w-full">
+                <Link
+                  href="about"
+                  className="flex flex-row gap-x-1 items-center justify-start w-full"
+                >
                   <svg
                     className="h-6 w-6"
                     fill="none"
@@ -95,8 +96,28 @@ export default function MainMenu({ className }: { className?: string }) {
                       fill="currentColor"
                     />
                   </svg>
-                  internet
-                </Button>
+                  about
+                </Link>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item asChild>
+                <Link
+                  href="https://github.com/bieniucieniu"
+                  target="_blank"
+                  className="flex flex-row items-center justify-start w-full"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M6 3h14v2h2v6h-2v8h-2V5H6V3zm8 14v-2H6V5H4v10H2v4h2v2h14v-2h-2v-2h-2zm0 0v2H4v-2h10zM8 7h8v2H8V7zm8 4H8v2h8v-2z"
+                      fill="currentColor"
+                    ></path>
+                  </svg>
+                  github
+                </Link>
               </DropdownMenu.Item>
             </DropdownMenu.Group>
             <DropdownMenu.Group>
