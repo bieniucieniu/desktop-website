@@ -1,23 +1,21 @@
+"use client"
 import { createContext, useContext, useState } from "react"
+import { Window } from "../ui/Window"
 
-type Window = {
-  name: string
-  content: React.ReactNode
-  customId: string | undefined
-}
+type WindowProps = { props: Parameters<typeof Window>[0]; id: string }
 
 type MainContext = {
-  windows: Window[]
-  openWindow: ({ name, content, customId = undefined }: Window) => void
-  deleteWindow: (idx: number) => void
+  windows: WindowProps[]
+  addWindow: (id: string, props: Parameters<typeof Window>[0]) => void
+  deleteWindow: (id: string) => void
 }
 
 const MainContext = createContext<MainContext | null>(null)
 
-export function useWindowContext() {
+export function useMainContext() {
   const context = useContext(MainContext)
 
-  if (context === null) {
+  if (!context) {
     throw new Error("not in window context")
   }
 
@@ -29,24 +27,23 @@ export function MainContextProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [windows, setWindows] = useState<Window[]>([])
+  const [windows, setWindows] = useState<WindowProps[]>([])
 
-  function openWindow({ name, content, customId = undefined }: Window) {
-    if (
-      customId !== undefined &&
-      windows.find((w) => w.customId === customId)
-    ) {
-      return
-    }
-    windows.push({ customId, name, content })
+  function addWindow(id: string, props: Parameters<typeof Window>[0]) {
+    const win = windows.find((w) => w.id === id)
+
+    if (win) win.props = props
+    else windows.push({ id, props })
+
     setWindows([...windows])
   }
-  function deleteWindow(idx: number) {
-    const w = windows.filter((_, i) => i !== idx)
-    setWindows(w)
+
+  function deleteWindow(id: string) {
+    const newWin = windows.filter((w) => w.id !== id)
+    setWindows(newWin)
   }
   return (
-    <MainContext.Provider value={{ windows, openWindow, deleteWindow }}>
+    <MainContext.Provider value={{ windows, addWindow, deleteWindow }}>
       {children}
     </MainContext.Provider>
   )
