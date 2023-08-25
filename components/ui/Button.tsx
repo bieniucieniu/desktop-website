@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge"
 import NextLink from "next/link"
 import { HTMLMotionProps, motion } from "framer-motion"
 
-const Button = forwardRef<HTMLButtonElement, HTMLMotionProps<"button">>(
+const MButton = forwardRef<HTMLButtonElement, HTMLMotionProps<"button">>(
   ({ className, ...props }, ref) => {
     return (
       <motion.button
@@ -17,6 +17,23 @@ const Button = forwardRef<HTMLButtonElement, HTMLMotionProps<"button">>(
     )
   }
 )
+MButton.displayName = "Button"
+
+const Button = forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <button
+      className={twMerge(
+        "active-border-button border-2 border-solid bg-zinc-300 text-black px-1 select-none border-zinc-300",
+        className
+      )}
+      ref={ref}
+      {...props}
+    />
+  )
+})
 Button.displayName = "Button"
 
 const Link = forwardRef<
@@ -38,4 +55,4 @@ const Link = forwardRef<
 })
 Link.displayName = "Link"
 
-export { Button, Link }
+export { Button, MButton, Link }

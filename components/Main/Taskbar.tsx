@@ -4,7 +4,7 @@ import Clock from "./Clock"
 import MainMenu from "./MainMenu"
 import * as Separator from "@radix-ui/react-separator"
 import { useWindows } from "../ui/Window"
-import { Button } from "../ui/Button"
+import { MButton } from "../ui/Button"
 import { useTransform } from "framer-motion"
 
 function WindowButton({
@@ -12,7 +12,7 @@ function WindowButton({
   length,
   layer,
   ...props
-}: Parameters<typeof Button>[0] & {
+}: Parameters<typeof MButton>[0] & {
   layer: { get: () => number } | undefined
   length: number
 }) {
@@ -21,7 +21,7 @@ function WindowButton({
   )
 
   return (
-    <Button
+    <MButton
       className="border-outset"
       {...props}
       style={{ backgroundColor, ...style }}
