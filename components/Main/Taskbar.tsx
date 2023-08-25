@@ -11,6 +11,7 @@ function WindowButton({
   style,
   length,
   layer,
+  ...props
 }: Parameters<typeof Button>[0] & {
   layer: { get: () => number } | undefined
   length: number
@@ -19,7 +20,13 @@ function WindowButton({
     layer?.get() === length ? "aqua" : undefined
   )
 
-  return <Button style={{ backgroundColor, ...style }} />
+  return (
+    <Button
+      className="border-outset"
+      {...props}
+      style={{ backgroundColor, ...style }}
+    />
+  )
 }
 
 export function Taskbar({ className }: { className?: string }) {
@@ -27,7 +34,7 @@ export function Taskbar({ className }: { className?: string }) {
   return (
     <nav
       className={twMerge(
-        "flex flex-row justify-between border-taskbar border-2 bg-zinc-300 py-0.5 px-2",
+        "flex flex-row justify-between border-taskbar border-2 bg-zinc-300 py-0.5 px-2 z-40",
         className
       )}
     >
@@ -38,15 +45,18 @@ export function Taskbar({ className }: { className?: string }) {
           className="border-outset border my-0.5"
         />
 
-        {WindowsControlls.map((e) => (
-          <WindowButton
-            key={e.id}
-            layer={e.layer}
-            length={WindowsControlls.length}
-          >
-            {e.name}
-          </WindowButton>
-        ))}
+        {WindowsControlls.map(
+          (e) =>
+            e && (
+              <WindowButton
+                key={e.id}
+                layer={e.layer}
+                length={WindowsControlls.length}
+              >
+                {e.name}
+              </WindowButton>
+            )
+        )}
       </section>
       <Clock />
     </nav>
