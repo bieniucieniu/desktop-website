@@ -45,18 +45,16 @@ export function Taskbar({ className }: { className?: string }) {
           className="border-outset border my-0.5"
         />
 
-        {WindowsControlls.map(
-          (e) =>
-            e && (
-              <WindowButton
-                key={e.id}
-                layer={e.layer}
-                length={WindowsControlls.length}
-              >
-                {e.name}
-              </WindowButton>
-            )
-        )}
+        {WindowsControlls.map((e) => (
+          <WindowButton
+            onClick={() => e.open?.set(true)}
+            key={e.id}
+            layer={e.layer}
+            length={WindowsControlls.length}
+          >
+            {e.name}
+          </WindowButton>
+        ))}
       </section>
       <Clock />
     </nav>

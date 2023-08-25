@@ -1,9 +1,11 @@
-import { Window } from "@/components/ui/Window"
+import { AddWindow } from "@/components/Main/WindowRenderer"
 
 export default function Home() {
   return (
     <>
-      <Window name="dasda" />
+      <AddWindow name="home" id="home">
+        <div className="text-9xl bg-red-400">adhlksajdhaksljdha</div>
+      </AddWindow>
     </>
   )
 }
