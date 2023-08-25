@@ -7,17 +7,15 @@ import { Window } from "../ui/Window"
 export function AddWindow({
   children,
   name,
-  id,
 }: {
   children?: ReactElement
   name: string
-  id: string
 }) {
   const { addWindow: add } = useMainContext()
   useEffect(() => {
     const defaultFullScreen = window.innerWidth < 1024
-    add(id, { name, children, defaultFullScreen, customId: id })
-  }, [name, children, id])
+    add(name, { name, children, defaultFullScreen, customId: name })
+  }, [name, children])
 
   return null
 }
