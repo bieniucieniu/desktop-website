@@ -47,7 +47,10 @@ export function Taskbar({ className }: { className?: string }) {
 
         {WindowsControlls.map((e) => (
           <WindowButton
-            onClick={() => e.open?.set(true)}
+            onClick={() => {
+              e.open?.set(true)
+              e.focusWindow()
+            }}
             key={e.id}
             layer={e.layer}
             length={WindowsControlls.length}

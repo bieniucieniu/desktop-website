@@ -70,14 +70,30 @@ function useWindowBoundry() {
 
 export function useWindows() {
   const { windows } = useWindowContext()
+  function focusWindow(id: string) {
+    const win = windows.get(id)
+    if (!win) return
+    const oldLayer = win.layer.get()
+    win.layer.set(windows.size)
 
+    windows.forEach((w, key) => {
+      if (key === id) return
+      const l = w.layer.get()
+      if (l > oldLayer) {
+        w.layer.set(l - 1)
+      }
+    })
+  }
   const WindowsControlls = [...windows.keys()].map((id) => {
     const w = windows.get(id)
+
     return {
       id,
+      focusWindow: () => focusWindow(id),
       ...w,
     }
   })
+
   return { WindowsControlls }
 }
 
