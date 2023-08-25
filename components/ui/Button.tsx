@@ -27,7 +27,7 @@ const Link = forwardRef<
     <NextLink href={href} legacyBehavior>
       <motion.a
         className={twMerge(
-          "active-border-button border-2 border-solid bg-zinc-300 text-black px-1 select-none border-zinc-300",
+          "active-border-button border-2 border-solid bg-zinc-300 text-black px-1 select-none border-zinc-300 hover:underline",
           className
         )}
         ref={ref}
