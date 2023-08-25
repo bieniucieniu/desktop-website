@@ -97,9 +97,9 @@ export function Window({
   name,
   defaultOpen = true,
   defaultFullScreen = false,
-  asChild = false,
   onClose,
   onPointerDown,
+  defaultPosition = { x: 200, y: 200 },
   customId = undefined,
   ...props
 }: HTMLMotionProps<"div"> & {
@@ -107,8 +107,8 @@ export function Window({
   name: string
   defaultOpen?: boolean
   defaultFullScreen?: boolean
+  defaultPosition?: { x: number; y: number }
   children?: React.ReactElement
-  asChild?: boolean
   onClose?: (id: string) => void
 }) {
   const dragControlls = useDragControls()
@@ -130,6 +130,8 @@ export function Window({
       layer,
     })
     setWindows(new Map(windows))
+
+    setPosition(defaultPosition)
 
     return () => {
       if (!windows.has(id)) return
@@ -182,23 +184,37 @@ export function Window({
     return "auto"
   })
   const animationControls = useAnimationControls()
-  const lastX = useMotionValue(0)
-  const lastY = useMotionValue(0)
+  const lastPosition = useMotionValue(defaultPosition)
 
   fullScreen.on("change", (fs) => {
     if (fs === true)
-      return animationControls.set({
+      return setPosition({
         x: undefined,
         y: undefined,
       })
 
-    if (fs === false)
-      return animationControls.set({
-        x: lastX.get(),
-        y: lastY.get(),
-      })
+    if (fs === false) return setPosition(lastPosition.get())
   })
   const visibility = useTransform(() => (open.get() ? "visible" : "hidden"))
+
+  function saveLastPosition({ x, y }: { x: number; y: number }) {
+    const c = constraints.get()
+    if (c) {
+      lastPosition.set({
+        x: x > c.right ? c.right : x < c.left ? c.left : x,
+        y: y > c.bottom ? c.bottom : y < c.top ? c.top : y,
+      })
+    } else {
+      lastPosition.set({ x, y })
+    }
+  }
+
+  function setPosition(props: {
+    x: number | undefined
+    y: number | undefined
+  }) {
+    return animationControls.set(props)
+  }
 
   return (
     <motion.div
@@ -212,17 +228,7 @@ export function Window({
       dragMomentum={false}
       dragElastic={0.1}
       dragConstraints={constraints.get()}
-      onDragEnd={(_, info) => {
-        const c = constraints.get()
-        const { x, y } = info.point
-        if (c) {
-          lastX.set(x > c.right ? c.right : x < c.left ? c.left : x)
-          lastY.set(y > c.bottom ? c.bottom : y < c.top ? c.top : y)
-        } else {
-          lastX.set(x)
-          lastY.set(y)
-        }
-      }}
+      onDragEnd={(_, info) => saveLastPosition(info.point)}
       style={{
         touchAction: "none",
         position: "absolute",
