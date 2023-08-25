@@ -151,8 +151,8 @@ export function Window({
 
     return () => {
       if (!windows.has(id)) return
-      windows.delete(id)
-      setWindows(new Map(windows))
+      const s = windows.delete(id)
+      if (s) setWindows(new Map(windows))
     }
   }, [])
 
