@@ -4,7 +4,7 @@ import Clock from "./Clock"
 import MainMenu from "./MainMenu"
 import * as Separator from "@radix-ui/react-separator"
 import { useWindows } from "../ui/Window"
-import { MButton } from "../ui/Button"
+import { MButton } from "../ui/MButton"
 import { useTransform } from "framer-motion"
 
 function WindowButton({
