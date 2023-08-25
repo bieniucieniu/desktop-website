@@ -2,8 +2,10 @@
 import { twJoin } from "tailwind-merge"
 import { Button, Link } from "../ui/Button"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import { useMainContext } from "./MainContext"
 
 export default function MainMenu({ className }: { className?: string }) {
+  const { powerOff } = useMainContext()
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -123,7 +125,10 @@ export default function MainMenu({ className }: { className?: string }) {
             <DropdownMenu.Group>
               <DropdownMenu.Separator className="border-inset border mx-1" />
               <DropdownMenu.Item asChild>
-                <Button className="flex flex-row items-center gap-1 w-full">
+                <Button
+                  className="flex flex-row items-center gap-1 w-full"
+                  onClick={powerOff}
+                >
                   shutdown
                   <svg
                     className="h-4 w-4"

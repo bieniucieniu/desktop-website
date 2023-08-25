@@ -8,6 +8,7 @@ type MainContext = {
   windows: WindowProps[]
   addWindow: (id: string, props: Parameters<typeof Window>[0]) => void
   deleteWindow: (id: string) => void
+  powerOff: () => void
 }
 
 const MainContext = createContext<MainContext | null>(null)
@@ -28,14 +29,23 @@ export function MainContextProvider({
   children: React.ReactNode
 }) {
   const [windows, setWindows] = useState<WindowProps[]>([])
+  const [powered, setPowered] = useState<boolean>(true)
 
   function addWindow(id: string, props: Parameters<typeof Window>[0]) {
     const win = windows.find((w) => w.id === id)
 
-    if (win) win.props = props
-    else windows.push({ id, props })
-
-    setWindows([...windows])
+    if (win) {
+      const newWin = windows.map((e) => {
+        if (e.id === id) {
+          return { id, props }
+        }
+        return e
+      })
+      setWindows(newWin)
+    } else {
+      windows.push({ id, props })
+      setWindows([...windows])
+    }
   }
 
   function deleteWindow(id: string) {
@@ -43,8 +53,15 @@ export function MainContextProvider({
     setWindows(newWin)
   }
   return (
-    <MainContext.Provider value={{ windows, addWindow, deleteWindow }}>
-      {children}
+    <MainContext.Provider
+      value={{
+        windows,
+        addWindow,
+        deleteWindow,
+        powerOff: () => setPowered(false),
+      }}
+    >
+      {powered ? children : null}
     </MainContext.Provider>
   )
 }
