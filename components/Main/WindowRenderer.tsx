@@ -29,7 +29,7 @@ export default function WindowRenderer() {
 		<Window
 			{...props}
 			key={id}
-			onClose={(i) => deleteWindow(i)}
+			onClose={() => deleteWindow(id)}
 			customId={id}
 		/>
 	))
