@@ -2,6 +2,7 @@ import { MainContextProvider } from "./MainContext"
 import { Taskbar } from "./Taskbar"
 import { WindowProvider, WindowsContainer } from "@/components/ui/Window"
 import WindowRenderer from "./WindowRenderer"
+import Icons from "./Icons"
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
 	return (
@@ -11,6 +12,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 					<WindowsContainer className="bg-teal-400 relative overflow-hidden z-0">
 						{children}
 						<WindowRenderer />
+						<Icons />
 					</WindowsContainer>
 					<Taskbar className="z-0" />
 				</main>
