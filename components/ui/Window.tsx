@@ -115,6 +115,7 @@ export function Window({
   defaultFullScreen = false,
   onClose,
   onPointerDown,
+  defaultSize,
   phone,
   defaultPosition = { x: 200, y: 200 },
   customId = undefined,
@@ -124,6 +125,10 @@ export function Window({
   name: string
   defaultOpen?: boolean
   defaultFullScreen?: boolean
+  defaultSize?: {
+    width: number
+    height: number
+  }
   phone?: boolean
   defaultPosition?: { x: number; y: number }
   children?: React.ReactElement
@@ -135,7 +140,7 @@ export function Window({
   const id = customId ?? i
   const open = useMotionValue<boolean>(defaultOpen ?? true)
   const fullScreen = useMotionValue<boolean>(
-    defaultFullScreen ?? window.innerWidth < 1024 ?? false
+    defaultFullScreen ?? window.innerWidth < 1024
   )
 
   const layer = useMotionValue<number>(windows.size + 1)
@@ -252,8 +257,8 @@ export function Window({
       style={{
         touchAction: "none",
         position: "absolute",
-        minWidth: phone ? undefined : 400,
-        minHeight: phone ? undefined : 300,
+        minWidth: phone ? undefined : defaultSize ? defaultSize.width : 400,
+        minHeight: phone ? undefined : defaultSize ? defaultSize.height : 300,
         maxWidth: "100vw",
         maxHeight: "100vh",
         inset,
