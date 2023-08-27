@@ -24,7 +24,7 @@ export default function TypingAnimation({
       : [children]
     if (onComplete) arr.push(onComplete)
     return arr
-  }, [children])
+  }, [children, onComplete])
 
   return (
     <TypeAnimation
