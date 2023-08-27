@@ -2,9 +2,8 @@
 import { AddWindow } from "@/components/Main/WindowRenderer"
 import TypingAnimation from "@/components/TypingAnimation"
 import { useState } from "react"
-import { TypeAnimation } from "react-type-animation"
 
-export default function info() {
+export default function Info() {
   const [stage, setStage] = useState<0 | 1 | 2 | 3 | 4>(0)
   const name = [
     ` _   .-')          ._. .-')                         ('-.             
