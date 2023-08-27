@@ -59,14 +59,18 @@ export default function Info() {
           ) : null}
           <br />
           {stage > 2 ? (
-            <TypingAnimation speed={50} className="whitespace-pre-line">
+            <TypingAnimation
+              onComplete={() => setStage(4)}
+              speed={50}
+              className="whitespace-pre-line"
+            >
               My preferred tools are react and typescript mainly used in next.js
               (13) with some addons/lib like React-Free-Fiber/drei, Radix-ui,
               framer-motion, tailwind, vanilla-extract-css, zod, drizzle and
               some more.
             </TypingAnimation>
           ) : null}
-          {stage > 4 ? (
+          {stage > 3 ? (
             <TypingAnimation speed={50} className="whitespace-pre-line">
               {`Check my projects, you have icon propably on the left, you can close the window and check it 
 or u can enter via start menu on the bottom`}
