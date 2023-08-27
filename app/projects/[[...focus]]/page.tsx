@@ -1,4 +1,5 @@
 import { AddWindow } from "@/components/Main/WindowRenderer"
+import Link from "next/link"
 import { Button } from "@/components/ui/Button"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs"
 
@@ -10,10 +11,10 @@ export default function Projects({
   const { focus } = params
   return (
     <AddWindow name="projects">
-      <Tabs defaultValue={focus === undefined ? "about" : focus[0]}>
+      <Tabs defaultValue={focus !== undefined ? focus[0] : "list"}>
         <TabsList>
-          <TabsTrigger value="about" asChild>
-            <Button>About</Button>
+          <TabsTrigger value="list" asChild>
+            <Button>list</Button>
           </TabsTrigger>
           <TabsTrigger value="braciabien" asChild>
             <Button>Bracia Bien</Button>
@@ -25,7 +26,21 @@ export default function Projects({
             <Button>Portfolio</Button>
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="about">about</TabsContent>
+        <TabsContent value="list">
+          <TabsList asChild>
+            <ul className="flex flex-col">
+              <TabsTrigger value="braciabien" asChild>
+                <li className="hover:underline">Bracia Bien</li>
+              </TabsTrigger>
+              <TabsTrigger value="breakout" asChild>
+                <li className="hover:underline">Breakout</li>
+              </TabsTrigger>
+              <TabsTrigger value="portfolio" asChild>
+                <li className="hover:underline">Portfolio</li>
+              </TabsTrigger>
+            </ul>
+          </TabsList>
+        </TabsContent>
         <TabsContent value="braciabien">braciabien</TabsContent>
         <TabsContent value="breakout">breakout</TabsContent>
         <TabsContent value="portfolio">portfolio</TabsContent>
