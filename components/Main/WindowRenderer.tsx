@@ -33,7 +33,7 @@ export default function WindowRenderer() {
       key={id}
       onClose={() => {
         deleteWindow(id)
-        router.back()
+        router.push("/")
       }}
       customId={id}
     />
