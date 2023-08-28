@@ -25,7 +25,7 @@ export default function Icons() {
       </NextLink>
       <NextLink
         target="_blank"
-        href="www.linkedin.com/in/mikołaj-bień-6090b2237"
+        href="https://www.linkedin.com/in/mikołaj-bień-6090b2237"
         className="group text-black grid-rows-[30px_1fr] justify-center items-center"
       >
         <svg
