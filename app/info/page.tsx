@@ -26,7 +26,11 @@ export default function Info() {
  \`------'  \`--'   \`------\`--'  \`--' \n`,
   ]
   return (
-    <AddWindow name="info">
+    <AddWindow
+      name="info"
+      defaultPosition={{ x: 100, y: 10 }}
+      defaultSize={{ width: 910, height: 710 }}
+    >
       <div>
         <article className="text-2xl whitespace-pre leading-[1.42rem] max-w-[900px]">
           <TypingAnimation
@@ -53,7 +57,7 @@ export default function Info() {
             >
               {[
                 `Hi if u can't read text above, I Mikolaj Bien`,
-                `I am self-taught Front-end web developer based in Poland and worked as a freelancer for half a year I've been doing web development for 2 years.`,
+                `I am self-taught Front-end web developer based in Poland and worked as a freelancer for half a year I've been doing web development for 3 years.`,
               ]}
             </TypingAnimation>
           ) : null}
@@ -70,6 +74,7 @@ export default function Info() {
               some more.
             </TypingAnimation>
           ) : null}
+          <br />
           {stage > 3 ? (
             <TypingAnimation speed={50} className="whitespace-pre-line">
               {`Check my projects, you have icon propably on the left, you can close the window and check it 
