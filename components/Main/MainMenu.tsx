@@ -72,10 +72,15 @@ export default function MainMenu({ className }: { className?: string }) {
                         Bracia Bien
                       </Link>
                     </DropdownMenu.Item>
+                    <DropdownMenu.Item asChild>
+                      <Link className="text-left " href="/projects/portfolio">
+                        portfolio site
+                      </Link>
+                    </DropdownMenu.Item>
                     <DropdownMenu.Separator className="border-inset border mx-1" />
                     <DropdownMenu.Item asChild>
                       <Link className="text-left " href="/projects">
-                        about
+                        list
                       </Link>
                     </DropdownMenu.Item>
                   </DropdownMenu.SubContent>
