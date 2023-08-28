@@ -6,8 +6,8 @@ import Welcome from "@/components/Main/Welcome"
 const vt323 = VT323({ weight: "400", subsets: ["latin"] })
 
 export const metadata = {
-  title: "i'm broke",
-  description: "yes i am",
+  title: "Mikolaj Bien website",
+  description: "portfolio website",
 }
 
 export default function RootLayout({
