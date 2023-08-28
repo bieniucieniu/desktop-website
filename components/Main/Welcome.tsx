@@ -4,18 +4,16 @@ import { useMainContext } from "@/components/Main/MainContext"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-
 export default function Welcome() {
-	const { welcome, setWelcome } = useMainContext()
-	const router = useRouter()
+  const { welcome, setWelcome } = useMainContext()
+  const router = useRouter()
 
-	useEffect(() => {
-		if (welcome) router.push("/info")
-		setWelcome(false)
-		/* eslint-disable */
-	}, [])
-	/* eslint-enable */
+  useEffect(() => {
+    if (welcome) router.push("/info")
+    setWelcome(false)
+    /* eslint-disable */
+  }, [])
+  /* eslint-enable */
 
-	return null
-}
+  return null
 }
