@@ -4,7 +4,7 @@ import TypingAnimation from "@/components/TypingAnimation"
 import { useState } from "react"
 
 export default function Info() {
-  const [stage, setStage] = useState<0 | 1 | 2 | 3 | 4>(0)
+  const [stage, setStage] = useState<0 | 1 | 2 | 3 | 4 | 5>(0)
   const name = [
     ` _   .-')          ._. .-')                         ('-.             
 ( '.( OO )_        \\  ( OO )                       ( OO ).-.         
@@ -75,10 +75,25 @@ export default function Info() {
             </TypingAnimation>
           ) : null}
           <br />
+
           {stage > 3 ? (
+            <TypingAnimation
+              onComplete={() => setStage(5)}
+              speed={50}
+              className="whitespace-pre-line bg-lime-50 text-black"
+            >
+              I am also intrested in Linux and Low level porgramming, I feel
+              pretty confident in headless environmene dealing with bash and
+              etc.
+              {"\n"}
+            </TypingAnimation>
+          ) : null}
+          <br />
+          {stage > 4 ? (
             <TypingAnimation speed={50} className="whitespace-pre-line">
-              {`Check my projects, you have icon propably on the left, you can close the window and check it 
-or u can enter via start menu on the bottom`}
+              Check my projects, you have icon propably on the left, if u can't
+              see it close the window and check it or you can enter via start
+              menu on the bottom
             </TypingAnimation>
           ) : null}
         </article>
