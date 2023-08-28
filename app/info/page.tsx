@@ -31,7 +31,7 @@ export default function Info() {
   ])
   useEffect(
     () => {
-      if (window.innerWidth < 1024) setName(["Hi, I am", "Mikolaj \nBien"])
+      if (window.innerWidth < 1024) setName(["Hi, I am", "Mikołaj \nBień"])
     },
     /* eslint-disable */
     []
