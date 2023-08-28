@@ -91,9 +91,9 @@ export default function Info() {
           <br />
           {stage > 4 ? (
             <TypingAnimation speed={50} className="whitespace-pre-line">
-              Check my projects, you have icon propably on the left, if u can't
-              see it close the window and check it or you can enter via start
-              menu on the bottom
+              Check my projects, you have icon propably on the left, if u
+              can&apos;t see it close the window and check it or you can enter
+              via start menu on the bottom
             </TypingAnimation>
           ) : null}
         </article>
