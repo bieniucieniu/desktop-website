@@ -241,10 +241,25 @@ export function Window({
     return animationControls.set(props)
   }
 
+  const maxWidth = useTransform(() => {
+    const { x } = lastPosition.get()
+    const { right } = constraints.get() ?? {
+      right: window.innerWidth,
+    }
+    return right - x
+  })
+  const maxHeight = useTransform(() => {
+    const { y } = lastPosition.get()
+    const { bottom } = constraints.get() ?? {
+      bottom: window.innerHeight,
+    }
+    return bottom - y - 38
+  })
+
   return (
     <motion.div
       animate={animationControls}
-      className="border-outset grid grid-rows-[40px_1fr] items-stretch justify-stretch bg-zinc-800 border-2 border-zinc-300 select-none"
+      className="border-outset grid grid-rows-[40px_1fr] items-stretch justify-stretch bg-zinc-800 border-2 border-zinc-300 select-none max-h-[calc(100svh_-_38px)]"
       layoutId={id}
       ref={ref}
       drag
@@ -259,8 +274,8 @@ export function Window({
         position: "absolute",
         minWidth: phone ? undefined : defaultSize ? defaultSize.width : 400,
         minHeight: phone ? undefined : defaultSize ? defaultSize.height : 300,
-        maxWidth: "100vw",
-        maxHeight: "100vh",
+        maxWidth: fullScreen ? undefined : maxWidth,
+        maxHeight: fullScreen ? undefined : maxHeight,
         inset,
         zIndex: layer,
         visibility,

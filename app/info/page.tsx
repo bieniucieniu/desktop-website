@@ -1,12 +1,18 @@
 "use client"
 import { AddWindow } from "@/components/Main/WindowRenderer"
 import TypingAnimation from "@/components/TypingAnimation"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export default function Info() {
   const [stage, setStage] = useState<0 | 1 | 2 | 3 | 4 | 5>(0)
-  const name = [
-    ` _   .-')          ._. .-')                         ('-.             
+  const scrollingRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    scrollingRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [stage])
+  const name =
+    window.innerWidth > 1024
+      ? [
+          ` _   .-')          ._. .-')                         ('-.             
 ( '.( OO )_        \\  ( OO )                       ( OO ).-.         
  ,--.   ,--.),-.-'),--. ,--. .-'),-----. ,--.      / . --. /    ,--. 
  |   \`.'   | |  |OO|  .'   /( OO'  .-.  '|  | .-') | \\-.  \\ .-')| ,| 
@@ -15,7 +21,7 @@ export default function Info() {
  |  |   |  |,|  |_.|  .   \\   \\ |  | |  |/  '---.' |  .-.  ,--. |  | 
  |  |   |  (_|  |  |  |\    \\   \`'  '-'  |/      |  |  | |  |  '-'  / 
  \`--'   \`--' \`--'  \`--' '--'     \`-----' \`------'  \`--' \`--'\`-----'  \n`,
-    `._. .-')            ('-.      .-') _  
+          `._. .-')            ('-.      .-') _  
 \\  ( OO )         _(  OO)    ( OO ) ) 
  ;-----.\\  ,_.-')(,------,--.//,--,'  
  | .-.  |  |  |OO)|  .---|   \\ |  |\\  
@@ -24,17 +30,21 @@ export default function Info() {
  | |  \\  |,|  |_.'|  .--'|  |\\    |   
  | '--'  (_|  |   |  \`---|  | \\   |   
  \`------'  \`--'   \`------\`--'  \`--' \n`,
-  ]
+        ]
+      : ["Hi, I am", "Mikolaj \nBien"]
   return (
     <AddWindow
       name="info"
       defaultPosition={{ x: 100, y: 10 }}
-      defaultSize={{ width: 910, height: 710 }}
+      defaultSize={{ width: 1024, height: 710 }}
     >
-      <div>
-        <article className="text-2xl whitespace-pre leading-[1.42rem] max-w-[900px]">
+      <div
+        style={{ scrollbarGutter: "stable" }}
+        className="max-h-[710px] overflow-y-scroll"
+      >
+        <article className="text-2xl whitespace-pre leading-[1.42rem] max-w-screen-lg">
           <TypingAnimation
-            className="min-h-[204px]"
+            className="text-9xl lg:text-2xl"
             onComplete={() => setStage(1)}
           >
             {name[0]}
@@ -42,7 +52,7 @@ export default function Info() {
           {stage > 0 ? (
             <TypingAnimation
               onComplete={() => setStage(2)}
-              className="min-h-[204px]"
+              className="text-9xl text-red-500 lg:text-2xl"
             >
               {name[1]}
             </TypingAnimation>
@@ -56,7 +66,9 @@ export default function Info() {
               onComplete={() => setStage(3)}
             >
               {[
-                `Hi if u can't read text above, I Mikolaj Bien`,
+                window.innerWidth > 1024
+                  ? `Hi if u can't read text above, I Mikolaj Bien`
+                  : "",
                 `I am self-taught Front-end web developer based in Poland and worked as a freelancer for half a year I've been doing web development for 3 years.`,
               ]}
             </TypingAnimation>
@@ -80,12 +92,11 @@ export default function Info() {
             <TypingAnimation
               onComplete={() => setStage(5)}
               speed={50}
-              className="whitespace-pre-line bg-lime-50 text-black"
+              className="whitespace-pre-line bg-orange-50 text-black"
             >
               I am also intrested in Linux and Low level porgramming, I feel
               pretty confident in headless environmene dealing with bash and
               etc.
-              {"\n"}
             </TypingAnimation>
           ) : null}
           <br />
@@ -96,7 +107,11 @@ export default function Info() {
               via start menu on the bottom
             </TypingAnimation>
           ) : null}
+          <br />
+          <br />
+          <br />
         </article>
+        <div ref={scrollingRef} />
       </div>
     </AddWindow>
   )
