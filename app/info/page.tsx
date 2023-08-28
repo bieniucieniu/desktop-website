@@ -10,15 +10,7 @@ export default function Info() {
     scrollingRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
   }, [stage])
   const [name, setName] = useState<[string, string]>([
-    "Hi, I am",
-    "Mikolaj \nBien",
-  ])
-  useEffect(
-    () =>
-      setName(
-        window.innerWidth > 1024
-          ? [
-              ` _   .-')          ._. .-')                         ('-.             
+    ` _   .-')          ._. .-')                         ('-.             
 ( '.( OO )_        \\  ( OO )                       ( OO ).-.         
  ,--.   ,--.),-.-'),--. ,--. .-'),-----. ,--.      / . --. /    ,--. 
  |   \`.'   | |  |OO|  .'   /( OO'  .-.  '|  | .-') | \\-.  \\ .-')| ,| 
@@ -27,7 +19,7 @@ export default function Info() {
  |  |   |  |,|  |_.|  .   \\   \\ |  | |  |/  '---.' |  .-.  ,--. |  | 
  |  |   |  (_|  |  |  |\    \\   \`'  '-'  |/      |  |  | |  |  '-'  / 
  \`--'   \`--' \`--'  \`--' '--'     \`-----' \`------'  \`--' \`--'\`-----'  \n`,
-              `._. .-')            ('-.      .-') _  
+    `._. .-')            ('-.      .-') _  
 \\  ( OO )         _(  OO)    ( OO ) ) 
  ;-----.\\  ,_.-')(,------,--.//,--,'  
  | .-.  |  |  |OO)|  .---|   \\ |  |\\  
@@ -36,9 +28,11 @@ export default function Info() {
  | |  \\  |,|  |_.'|  .--'|  |\\    |   
  | '--'  (_|  |   |  \`---|  | \\   |   
  \`------'  \`--'   \`------\`--'  \`--' \n`,
-            ]
-          : ["Hi, I am", "Mikolaj \nBien"]
-      ),
+  ])
+  useEffect(
+    () => {
+      if (window.innerWidth < 1024) setName(["Hi, I am", "Mikolaj \nBien"])
+    },
     /* eslint-disable */
     []
     /* eslint-enable */
