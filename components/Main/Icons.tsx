@@ -1,5 +1,4 @@
 import NextLink from "next/link"
-import { ReactElement } from "react"
 
 export default function Icons() {
   return (
@@ -22,6 +21,26 @@ export default function Icons() {
         </svg>
         <p className="text-center group-hover:underline text-3xl truncate">
           github
+        </p>
+      </NextLink>
+      <NextLink
+        target="_blank"
+        href="www.linkedin.com/in/mikołaj-bień-6090b2237"
+        className="group text-black grid-rows-[30px_1fr] justify-center items-center"
+      >
+        <svg
+          className="max-h-[90px] text-blue-300 bg-black"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M16 3H8v4H2v14h20V7h-6V3zm-2 4h-4V5h4v2zM4 19V9h16v10H4zm10-8h2v2h-2v-2zm-2 4v-2h2v2h-2zm-2 0h2v2h-2v-2zm0 0H8v-2h2v2z"
+            fill="currentColor"
+          />
+        </svg>
+        <p className="text-center group-hover:underline text-3xl truncate">
+          linkedin
         </p>
       </NextLink>
       <NextLink
