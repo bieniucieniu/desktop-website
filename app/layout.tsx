@@ -6,7 +6,7 @@ import Welcome from "@/components/Main/Welcome"
 const vt323 = VT323({ weight: "400", subsets: ["latin"] })
 
 export const metadata = {
-  title: "Mikolaj Bien website",
+  title: "Mikołaj Bień  website",
   description: "portfolio website",
 }
 
