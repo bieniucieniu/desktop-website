@@ -100,7 +100,7 @@ export default function Info() {
               className="whitespace-pre-line bg-orange-50 text-black"
             >
               I am also intrested in Linux and Low level porgramming, I feel
-              pretty confident in headless environmene dealing with bash and
+              pretty confident in headless environment dealing with bash and
               etc.
             </TypingAnimation>
           ) : null}
