@@ -18,8 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={vt323.className}>
-        <MainLayout>{children}</MainLayout>
-        <Welcome />
+        <MainLayout>
+          {children}
+          <Welcome />
+        </MainLayout>
       </body>
     </html>
   )
