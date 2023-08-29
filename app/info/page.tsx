@@ -109,7 +109,8 @@ export default function Info() {
             <TypingAnimation speed={50} className="whitespace-pre-line">
               Check my projects, you have icon propably on the left, if u
               can&apos;t see it close the window and check it or you can enter
-              via start menu on the bottom
+              via start menu on the bottom.{"\n"}This page is not perfect yet,
+              so God please have mercy.
             </TypingAnimation>
           ) : null}
           <br />
