@@ -246,14 +246,19 @@ export function Window({
     const { right } = constraints.get() ?? {
       right: window.innerWidth,
     }
-    return right - x
+    const max = right - x > window.innerWidth ? window.innerWidth : right - x
+    return max
   })
   const maxHeight = useTransform(() => {
     const { y } = lastPosition.get()
     const { bottom } = constraints.get() ?? {
       bottom: window.innerHeight,
     }
-    return bottom - y - 38
+    const max =
+      bottom - y > window.innerHeight
+        ? window.innerHeight - 38
+        : bottom - y - 38
+    return max
   })
 
   return (
