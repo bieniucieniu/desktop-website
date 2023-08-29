@@ -99,7 +99,7 @@ export default function Info() {
               speed={50}
               className="whitespace-pre-line bg-orange-50 text-black"
             >
-              I am also intrested in Linux and Low level porgramming, I feel
+              I am also intrested in Linux and Low level programming, I feel
               pretty confident in headless environment dealing with bash and
               etc.
             </TypingAnimation>
