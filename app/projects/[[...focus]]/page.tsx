@@ -125,7 +125,7 @@ export default function Projects({
                 on bucket and controlled via postgres database on admin page.
               </p>
               <Image
-                src="https://i.gifer.com/7Gan.gif"
+                src="/gif/spongebob.gif"
                 alt="asdas"
                 width={327}
                 height={480}
@@ -189,19 +189,9 @@ export default function Projects({
           <article className="max-w-screen-lg max-h-[700px] overflow-y-auto pb-3">
             <h1 className="text-5xl text-center">BREAKOUT</h1>
             <span className="grid grid-cols-[auto_500px_auto] justify-center items-center bg-black">
-              <Image
-                src="https://i.gifer.com/5Mz4.gif"
-                alt="flame"
-                width={327}
-                height={480}
-              />
+              <Image src="/gif/fire.gif" alt="flame" width={327} height={480} />
               <Image src="/breakout.png" alt="asdas" width={833} height={796} />
-              <Image
-                src="https://i.gifer.com/5Mz4.gif"
-                alt="flame"
-                width={327}
-                height={480}
-              />
+              <Image src="/gif/fire.gif" alt="flame" width={327} height={480} />
             </span>
             <br />
             <h1 className="text-3xl bg-red-50">STORY OF THE PROJECT</h1>
@@ -236,7 +226,7 @@ export default function Projects({
             <h1 className="flex flex-row justify-around items-center text-3xl">
               Portfolio website
               <Image
-                src="https://i.gifer.com/Y3il.gif"
+                src="/gif/kirbi.gif"
                 alt="kirbi"
                 className="h-14 w-14"
                 width={100}
@@ -303,14 +293,14 @@ export default function Projects({
               <div className="relative">
                 <Image
                   className="border-8 border-inset"
-                  src="https://i.gifer.com/g1dw.gif"
+                  src="/gif/tomatosorting.gif"
                   alt="tomato-sorter"
                   width={291}
                   height={450}
                 />
                 <Image
                   className="absolute bottom-0 max-w-[200px]"
-                  src="https://i.gifer.com/6oa.gif"
+                  src="/gif/bird.gif"
                   alt="tomato-sorter"
                   width={450}
                   height={450}
