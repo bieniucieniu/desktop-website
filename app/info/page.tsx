@@ -1,7 +1,7 @@
 "use client"
 import { AddWindow } from "@/components/Main/WindowRenderer"
 import TypingAnimation from "@/components/TypingAnimation"
-import { useEffect, useRef, useState } from "react"
+import { useLayoutEffect, useEffect, useRef, useState } from "react"
 
 export default function Info() {
   const [stage, setStage] = useState<0 | 1 | 2 | 3 | 4 | 5>(0)
@@ -29,7 +29,7 @@ export default function Info() {
  | '--'  (_|  |   |  \`---|  | \\   |   
  \`------'  \`--'   \`------\`--'  \`--' \n`,
   ])
-  useEffect(
+  useLayoutEffect(
     () => {
       if (window.innerWidth < 1024) setName(["Hi, I am", "Mikołaj \nBień"])
     },
@@ -109,8 +109,8 @@ export default function Info() {
             <TypingAnimation speed={50} className="whitespace-pre-line">
               Check my projects, you have icon propably on the left, if u
               can&apos;t see it close the window and check it or you can enter
-              via start menu on the bottom.{"\n"}This page is not perfect yet,
-              so God please have mercy.
+              via start menu on the bottom. This page is not perfect yet, so God
+              please have mercy.
             </TypingAnimation>
           ) : null}
           <br />
