@@ -48,10 +48,10 @@ export default function Projects({
                     Bracia Bien
                   </h1>
                   <p>
-                    Web page for my father&apos;s shop. Build with next.js 13,
-                    shadcn-ui and framer-motion. It has fully dynamic images
-                    stored on bucket and controlled via postgres database on
-                    admin page.
+                    This is a web page for my father’s shop, which I built using
+                    Next.js 13, Shadcn-UI and Framer Motion. It features fully
+                    dynamic images that are stored on a bucket and managed
+                    through a Postgres database on the admin page.
                   </p>
                 </li>
               </TabsTrigger>
@@ -61,9 +61,9 @@ export default function Projects({
                     Breakout
                   </h1>
                   <p>
-                    Copy of breakout game from far past, build mainly in vanilla
-                    react and three js. It has &quot;gravity&quot; version but
-                    works terible :/.
+                    This is a replica of the classic breakout game, which I
+                    developed mainly in vanilla React and Three.js. It also has
+                    a ‘gravity’ version, but it performs poorly.
                   </p>
                 </li>
               </TabsTrigger>
@@ -73,9 +73,10 @@ export default function Projects({
                     Portfolio
                   </h1>
                   <p>
-                    This website :). It has &quot;window manager&quot; build
-                    with framer motion, what&apos;s intresting content in window
-                    can be rendered on next.js server.
+                    This is my personal website, which features a ‘window
+                    manager’ built with Framer Motion. An interesting aspect of
+                    this website is that the content in the window can be
+                    rendered on the Next.js server.
                   </p>
                 </li>
               </TabsTrigger>
@@ -85,8 +86,8 @@ export default function Projects({
                     sorting
                   </h1>
                   <p>
-                    My first real project with vanilla js/ts, it uses html
-                    canvas to visualize 4 sorting algorithms.
+                    This is my first real project with vanilla JS/TS, which
+                    utilizes HTML canvas to visualize four sorting algorithms.
                   </p>
                 </li>
               </TabsTrigger>
@@ -96,8 +97,9 @@ export default function Projects({
                     weather app in angular
                   </h1>
                   <p>
-                    My only project with angular. It&apos;s use open weather api
-                    to display teperature, weather conditon and wind.
+                    This is my only project that uses Angular. It utilizes the
+                    Open Weather API to display the temperature, weather
+                    condition and wind speed.
                   </p>
                 </li>
               </TabsTrigger>
@@ -107,8 +109,9 @@ export default function Projects({
                     other
                   </h1>
                   <p>
-                    some project of mine not directly connected with front-end
-                    like discord bot, only css project or my dotfiles.
+                    These are some of my projects that are not directly related
+                    to front-end development, such as a Discord bot, a pure CSS
+                    project and my dotfiles.
                   </p>
                 </li>
               </TabsTrigger>
@@ -141,20 +144,22 @@ export default function Projects({
             <br />
             <h1 className="text-3xl bg-red-50">STORY OF THE PROJECT</h1>
             <p className="border-double border-2 border-black px-2 text-xl">
-              It was realy hard project becouse when you ask your dad about what
-              should be in it, (designe or anything) he reply &quot;I don&apos;t
-              now, do somthing like that (do page without on selling, list of
-              products or anythink like that, copy shoping page), ahh do it as
-              you like&quot;. At the begging this page was planned to be full
-              static but someone annoying said &quot;I don&apos;t want u to
-              change any something&quot; so I started with only uploadthing
-              (wraper for aws bucket storage) but I thought categorie would be
-              cool. At first i used vercel edgeConfig but it was so limiting, so
-              swap to some sql db, i tried supabase with orm,but nahh to much to
-              learn and problems with connecting, next vercel postgres, no
-              dealing with connectcting with orm &quot;prefect&quot; some
-              problems with schema and naming of columns but I got it and it has
-              cool animation no info and link on bottom{" "}
+              This project was very challenging because my dad, who was the
+              client, did not give me any specific requirements or feedback on
+              the design or functionality. He just told me to do something like
+              a shopping page, but without any selling, product listing or
+              anything like that. He also said I could do it as I liked.
+              Initially, I planned to make this page fully static, but he
+              insisted that he did not want me to change anything manually. So I
+              started with implementing an uploading feature (a wrapper for AWS
+              bucket storage), but then I thought adding categories would be
+              nice. At first, I used Vercel edgeConfig, but it was too limiting,
+              so I switched to a SQL database. I tried Supabase with ORM, but it
+              was too complicated and problematic to connect. Then I tried
+              Vercel Postgres, which was easier to connect with ORM. I still had
+              some issues with the schema and the column names, but I managed to
+              solve them. The result is a page that has a cool animation, on
+              information and a links at the bottom{" "}
               <Link
                 href="https://braciabien.bieniucieniu.pl/"
                 className="underline text-blue-600"
@@ -180,8 +185,9 @@ export default function Projects({
               id="admin"
             />
             <label htmlFor="admin" className="text-xl">
-              This above is admin page, it has simple dropzone for uplaod
-              (react-dropzone) and ablity to select categorie for img.
+              This is the admin page, which has a simple dropzone for uploading
+              (react-dropzone) and the ability to select a category for each
+              image.{" "}
             </label>
           </article>
         </TabsContent>
@@ -196,11 +202,12 @@ export default function Projects({
             <br />
             <h1 className="text-3xl bg-red-50">STORY OF THE PROJECT</h1>
             <p className="border-double border-2 border-black px-2">
-              Soo.. I did this project mayby 5 times, firsty time I tried with
-              vanilla js on canvas, 2nd with only three.js, 3rd with react(with
-              out react-three-fiber), 4th react and react-three and p2 physics
-              engine but it worked terible a lots of bugs and unplayable, and
-              finally this{" "}
+              I have attempted this project five times, using different methods
+              and tools. The first time, I used vanilla JavaScript on canvas.
+              The second time, I used only three.js. The third time, I used
+              React without react-three-fiber. The fourth time, I used React and
+              react-three-fiber with p2 physics engine, but it was terrible. It
+              had many bugs and was unplayable. And finally, this is the result.
               <Link
                 href="https://breakout.bieniucieniu.pl/"
                 className="underline text-blue-600"
@@ -208,9 +215,9 @@ export default function Projects({
               >
                 Check it
               </Link>
-              . Now it&apos;s just react and react-three and it works well. it
-              has also scoreboard build with google firebase and that&apos;s it
-              I think.{" "}
+              Now I have used only React and react-three-fiber and it works
+              well. It also has a scoreboard built with Google Firebase and
+              that’s all.{" "}
               <Link
                 href="https://github.com/bieniucieniu/breakout"
                 target="_blank"
@@ -234,15 +241,11 @@ export default function Projects({
               />
             </h1>
             <p className="bg-white text-black">
-              just look around here, press some button idk
+              This web app is built with React, Next.js, Framer Motion and Radix
+              UI. You can explore it by clicking some buttons, moving the
+              window, etc. There is not much of a story behind it.
             </p>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
             <p>
-              and it build with react, next.js, framer-motion and readix-ui and{" "}
               <Link
                 href="https://github.com/bieniucieniu/portfolio-website"
                 className="text-blue-500 underline"
@@ -261,17 +264,17 @@ export default function Projects({
                   Sorting Visualizer
                 </h1>
                 <p className="border-4 bg-white border-black border-double m-2 p-2 text-xl">
-                  My first real project with vanilla js/ts, it uses html canvas
-                  to visualize 4 sorting algorithms.
+                  This is my first real project with vanilla
+                  JavaScript/TypeScript. It uses HTML canvas to visualize four
+                  sorting algorithms. I don’t recall the story of it, but I hope
+                  it was beautiful.
                   <br />
-                  to be honest I don&apos;t remember the story of it, I hope it
-                  was beautiful, check it{" "}
                   <Link
                     href="https://sorting.bieniucieniu.pl/"
                     className="underline text-blue-600"
                     target="_blank"
                   >
-                    Check it
+                    Please check it out.
                   </Link>{" "}
                   and{" "}
                   <Link
@@ -313,8 +316,9 @@ export default function Projects({
           <article>
             <h1>weather app</h1>
             <p>
-              My only project with angular. It&apos;s use open weather api to
-              display teperature, weather conditon and wind.{" "}
+              This is my only project that uses Angular. It utilizes the open
+              weather API to show the temperature, weather condition and wind
+              speed.{" "}
               <Link
                 href="https://sorting.bieniucieniu.pl/"
                 className="underline text-blue-600"
