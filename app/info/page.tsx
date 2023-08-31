@@ -70,12 +70,7 @@ export default function Info() {
               className="bg-cyan-400 text-black whitespace-pre-line"
               onComplete={() => setStage(3)}
             >
-              {[
-                window.innerWidth > 1024
-                  ? `Hi if u can't read text above, I Mikolaj Bien`
-                  : "",
-                `I am self-taught Front-end web developer based in Poland and worked as a freelancer for half a year I've been doing web development for 3 years.`,
-              ]}
+              {`I have three years of experience in web development, specializing in front-end technologies. I acquired my skills through self-study and freelance projects in Poland.`}
             </TypingAnimation>
           ) : null}
           <br />
@@ -85,10 +80,10 @@ export default function Info() {
               speed={50}
               className="whitespace-pre-line"
             >
-              My preferred tools are react and typescript mainly used in next.js
-              (13) with some addons/lib like React-Free-Fiber/drei, Radix-ui,
-              framer-motion, tailwind, vanilla-extract-css, zod, drizzle and
-              some more.
+              I mainly use React and TypeScript with Next.js as my preferred
+              tools for web development. I also employ various libraries and
+              add-ons, such as React-Free-Fiber/drei, Radix-ui, framer-motion,
+              tailwind, vanilla-extract-css, zod, drizzle and others.
             </TypingAnimation>
           ) : null}
           <br />
@@ -99,18 +94,20 @@ export default function Info() {
               speed={50}
               className="whitespace-pre-line bg-orange-50 text-black"
             >
-              I am also intrested in Linux and Low level programming, I feel
-              pretty confident in headless environment dealing with bash and
-              etc.
+              I have also developed an interest in Linux and low-level
+              programming, which gives me a deeper understanding of JavaScript.
+              I am proficient in working with bash and other tools in a headless
+              environment.
             </TypingAnimation>
           ) : null}
           <br />
           {stage > 4 ? (
             <TypingAnimation speed={50} className="whitespace-pre-line">
-              Check my projects, you have icon propably on the left, if u
-              can&apos;t see it close the window and check it or you can enter
-              via start menu on the bottom. This page is not perfect yet, so God
-              please have mercy.
+              Please take a look at my projects, which you can access by
+              clicking on the icon on the left. If the icon is not visible,
+              close the window and try again, or use the start menu at the
+              bottom. This page is still under development, so I appreciate your
+              patience and feedback.
             </TypingAnimation>
           ) : null}
           <br />
