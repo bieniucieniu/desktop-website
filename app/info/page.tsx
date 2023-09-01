@@ -70,7 +70,9 @@ export default function Info() {
               className="bg-cyan-400 text-black whitespace-pre-line"
               onComplete={() => setStage(3)}
             >
-              {`I have three years of experience in web development, specializing in front-end technologies. I acquired my skills through self-study and freelance projects in Poland.`}
+              I have three years of experience in web development, specializing
+              in front-end technologies. I acquired my skills through self-study
+              and freelance projects in Poland.
             </TypingAnimation>
           ) : null}
           <br />
@@ -104,8 +106,7 @@ export default function Info() {
           {stage > 4 ? (
             <TypingAnimation speed={50} className="whitespace-pre-line">
               Please take a look at my projects, which you can access by
-              clicking on the icon on the left. If the icon is not visible,
-              close the window and try again, or use the start menu at the
+              clicking on the icon on the Desktop or use the start menu at the
               bottom. This page is still under development, so I appreciate your
               patience and feedback.
             </TypingAnimation>
