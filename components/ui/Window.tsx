@@ -86,7 +86,7 @@ export function useWindows() {
   }
   const WindowsControlls = [...windows.keys()].map((id) => {
     const w = windows.get(id)
-
+    if (!w) return
     return {
       id,
       focusWindow: () => focusWindow(id),

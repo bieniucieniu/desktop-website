@@ -5,28 +5,9 @@ import MainMenu from "./MainMenu"
 import * as Separator from "@radix-ui/react-separator"
 import { useWindows } from "../ui/Window"
 import { MButton } from "../ui/MButton"
-import { useTransform } from "framer-motion"
 
-function WindowButton({
-  style,
-  length,
-  layer,
-  ...props
-}: Parameters<typeof MButton>[0] & {
-  layer: { get: () => number } | undefined
-  length: number
-}) {
-  const backgroundColor = useTransform(() =>
-    layer?.get() === length ? "aqua" : undefined
-  )
-
-  return (
-    <MButton
-      className="border-outset"
-      {...props}
-      style={{ backgroundColor, ...style }}
-    />
-  )
+function WindowButton({ style, ...props }: Parameters<typeof MButton>[0] & {}) {
+  return <MButton className="border-outset" {...props} style={{ ...style }} />
 }
 
 export function Taskbar({ className }: { className?: string }) {
@@ -45,20 +26,20 @@ export function Taskbar({ className }: { className?: string }) {
           className="border-outset border my-0.5"
         />
         <ul className="flex flex-col flex-wrap">
-          {WindowsControlls.map((e) => (
-            <li key={e.id}>
-              <WindowButton
-                onClick={() => {
-                  e.open?.set(true)
-                  e.focusWindow()
-                }}
-                layer={e.layer}
-                length={WindowsControlls.length}
-              >
-                {e.name}
-              </WindowButton>
-            </li>
-          ))}
+          {WindowsControlls.map((e) =>
+            e ? (
+              <li key={e.id}>
+                <WindowButton
+                  onClick={() => {
+                    e.open?.set(true)
+                    e.focusWindow()
+                  }}
+                >
+                  {e.name}
+                </WindowButton>
+              </li>
+            ) : null
+          )}
         </ul>
       </section>
       <Clock />
