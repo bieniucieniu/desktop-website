@@ -194,10 +194,27 @@ export default function Projects({
         <TabsContent value="breakout">
           <article className="max-w-screen-lg max-h-[700px] overflow-y-auto pb-3">
             <h1 className="text-5xl text-center">BREAKOUT</h1>
-            <span className="grid grid-cols-[auto_500px_auto] justify-center items-center bg-black">
-              <Image src="/gif/fire.gif" alt="flame" width={327} height={480} />
-              <Image src="/breakout.png" alt="asdas" width={833} height={796} />
-              <Image src="/gif/fire.gif" alt="flame" width={327} height={480} />
+            <span className="grid lg:grid-cols-[auto_500px_auto] justify-center items-center bg-black">
+              <Image
+                className="hidden lg:block"
+                src="/gif/fire.gif"
+                alt="flame"
+                width={327}
+                height={480}
+              />
+              <Image
+                src="/breakout.png"
+                alt="app_preview"
+                width={833}
+                height={796}
+              />
+              <Image
+                className="hidden lg:block"
+                src="/gif/fire.gif"
+                alt="flame"
+                width={327}
+                height={480}
+              />
             </span>
             <br />
             <h1 className="text-3xl bg-red-50">STORY OF THE PROJECT</h1>
@@ -214,7 +231,7 @@ export default function Projects({
                 target="_blank"
               >
                 Check it
-              </Link>
+              </Link>{" "}
               Now I have used only React and react-three-fiber and it works
               well. It also has a scoreboard built with Google Firebase and
               that’s all.{" "}
@@ -258,7 +275,7 @@ export default function Projects({
         </TabsContent>
         <TabsContent value="sorting">
           <article className="max-w-screen-lg">
-            <span className="items-center bg-black gap-2 grid grid-cols-[1fr_300px]">
+            <span className="items-center bg-black gap-2 grid lg:grid-cols-[1fr_300px]">
               <span>
                 <h1 className="bg-yellow-50 text-3xl m-2">
                   Sorting Visualizer
@@ -293,7 +310,7 @@ export default function Projects({
                   height={812}
                 />
               </span>
-              <div className="relative">
+              <div className="relative hidden lg:block">
                 <Image
                   className="border-8 border-inset"
                   src="/gif/tomatosorting.gif"
