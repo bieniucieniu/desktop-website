@@ -337,7 +337,7 @@ export default function Projects({
               weather API to show the temperature, weather condition and wind
               speed.{" "}
               <Link
-                href="https://sorting.bieniucieniu.pl/"
+                href="https://weather-app.bieniucieniu.pl/"
                 className="underline text-blue-600"
                 target="_blank"
               >
