@@ -11,7 +11,11 @@ export default function Projects({
 }) {
   const { focus } = params
   return (
-    <AddWindow name="projects" defaultPosition={{ x: 100, y: 10 }}>
+    <AddWindow
+      name="projects"
+      defaultSize={{ width: 1000, height: 680 }}
+      defaultPosition={{ x: 100, y: 10 }}
+    >
       <Tabs
         className="max-w-[100vw]"
         defaultValue={focus !== undefined ? focus[0] : "list"}
@@ -39,7 +43,7 @@ export default function Projects({
             <Button>other</Button>
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="list">
+        <TabsContent className="" value="list">
           <TabsList asChild>
             <ul className="flex flex-col gap-y-3 p-2 text-xl max-w-screen-lg">
               <TabsTrigger value="braciabien" asChild>
@@ -118,8 +122,11 @@ export default function Projects({
             </ul>
           </TabsList>
         </TabsContent>
-        <TabsContent value="braciabien">
-          <article className="max-w-screen-lg max-h-[700px] overflow-y-auto py-3">
+        <TabsContent
+          className="max-h-[600px] overflow-y-auto"
+          value="braciabien"
+        >
+          <article className="max-w-screen-lg py-3">
             <h1 className="text-3xl bg-red-50 my-3">simple company webpage</h1>
             <span className="flex flex-row mb-3">
               <p className="text-2xl">
@@ -191,8 +198,8 @@ export default function Projects({
             </label>
           </article>
         </TabsContent>
-        <TabsContent value="breakout">
-          <article className="max-w-screen-lg max-h-[700px] overflow-y-auto pb-3">
+        <TabsContent className="max-h-[600px] overflow-y-auto" value="breakout">
+          <article className="max-w-screen-lg overflow-y-auto pb-3">
             <h1 className="text-5xl text-center">BREAKOUT</h1>
             <span className="grid lg:grid-cols-[auto_500px_auto] justify-center items-center bg-black">
               <Image
