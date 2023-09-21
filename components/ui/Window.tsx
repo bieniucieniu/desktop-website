@@ -273,8 +273,8 @@ export function Window({
       style={{
         touchAction: "none",
         position: "absolute",
-        minWidth: phone ? undefined : defaultSize ? defaultSize.width : 400,
-        minHeight: phone ? undefined : defaultSize ? defaultSize.height : 300,
+        width: phone ? undefined : defaultSize ? defaultSize.width : 400,
+        height: phone ? undefined : defaultSize ? defaultSize.height : 300,
         maxWidth: fullScreen ? undefined : maxWidth,
         maxHeight: fullScreen ? undefined : maxHeight,
         inset,
