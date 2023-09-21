@@ -161,7 +161,7 @@ export default function Projects({
               solve them. The result is a page that has a cool animation, on
               information and a links at the bottom{" "}
               <Link
-                href="https://braciabien.bieniucieniu.pl/"
+                href="https://braciabien.pl/"
                 className="underline text-blue-600"
                 target="_blank"
               >
