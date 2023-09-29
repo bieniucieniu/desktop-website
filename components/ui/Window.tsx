@@ -48,7 +48,7 @@ type WindowBoundryContext = {
 
 const WindowContext = createContext<WindowContext | null>(null)
 const WindowConstraintsContext = createContext<WindowBoundryContext | null>(
-  null
+  null,
 )
 
 function useWindowContext() {
@@ -140,7 +140,7 @@ export function Window({
   const id = customId ?? i
   const open = useMotionValue<boolean>(defaultOpen ?? true)
   const fullScreen = useMotionValue<boolean>(
-    defaultFullScreen ?? window.innerWidth < 1024
+    defaultFullScreen ?? window.innerWidth < 1024,
   )
 
   const layer = useMotionValue<number>(windows.size + 1)
@@ -241,20 +241,26 @@ export function Window({
     return animationControls.set(props)
   }
 
-  const maxWidth = useTransform(() => {
+  const width = useTransform(() => {
+    if (phone || fullScreen.get()) return "auto"
     const { x } = lastPosition.get()
-    const { right } = constraints.get() ?? {
+    const { right } = boundry?.get() ?? {
       right: window.innerWidth,
     }
-    return right - x
+    const w = defaultSize?.width ?? 400
+    const maxW = right - x
+    return w > maxW ? maxW : w
   })
 
-  const maxHeight = useTransform(() => {
+  const height = useTransform(() => {
+    if (phone || fullScreen.get()) return "auto"
     const { y } = lastPosition.get()
-    const { bottom } = constraints.get() ?? {
+    const { bottom } = boundry?.get() ?? {
       bottom: window.innerHeight,
     }
-    return bottom - y - 38
+    const h = defaultSize?.height ?? 300
+    const maxH = bottom - y - 38
+    return h > maxH ? maxH : h
   })
 
   return (
@@ -273,10 +279,8 @@ export function Window({
       style={{
         touchAction: "none",
         position: "absolute",
-        width: phone ? undefined : defaultSize ? defaultSize.width : 400,
-        height: phone ? undefined : defaultSize ? defaultSize.height : 300,
-        maxWidth: fullScreen ? undefined : maxWidth,
-        maxHeight: fullScreen ? undefined : maxHeight,
+        width,
+        height,
         inset,
         zIndex: layer,
         visibility,
@@ -290,7 +294,7 @@ export function Window({
       <nav
         className={twMerge(
           "flex select-none flex-row justify-between items-center w-full border-outset border-b-2 bg-gray-400",
-          className
+          className,
         )}
         onPointerDown={(e) => {
           if (!fullScreen.get()) dragControlls.start(e)
