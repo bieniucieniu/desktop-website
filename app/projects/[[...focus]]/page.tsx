@@ -18,7 +18,7 @@ export default function Projects({
     >
       <Tabs
         className="max-w-[100vw]"
-        defaultValue={focus !== undefined ? focus[0] : "list"}
+        defaultValue={focus?.length ? focus[0] : "list"}
       >
         <TabsList className="overflow-x-auto">
           <TabsTrigger value="list" asChild>
