@@ -3,13 +3,9 @@ import { AddWindow } from "@/components/Main/WindowRenderer"
 import TypingAnimation from "@/components/TypingAnimation"
 import { useLayoutEffect, useEffect, useRef, useState } from "react"
 
-export default function Info() {
-  const [stage, setStage] = useState<0 | 1 | 2 | 3 | 4 | 5>(0)
-  const scrollingRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    scrollingRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [stage])
-  const [name, setName] = useState<[string, string]>([
+const name = {
+  short: ["Hi, I am", "Mikołaj \nBień"],
+  long: [
     ` _   .-')          ._. .-')                         ('-.             
 ( '.( OO )_        \\  ( OO )                       ( OO ).-.         
  ,--.   ,--.),-.-'),--. ,--. .-'),-----. ,--.      / . --. /    ,--. 
@@ -28,15 +24,34 @@ export default function Info() {
  | |  \\  |,|  |_.'|  .--'|  |\\    |   
  | '--'  (_|  |   |  \`---|  | \\   |   
  \`------'  \`--'   \`------\`--'  \`--' \n`,
-  ])
+  ],
+}
+
+export default function Info() {
+  const [stage, setStage] = useState<0 | 1 | 2 | 3 | 4 | 5>(0)
+  const scrollingRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    scrollingRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+  }, [stage])
+  const [nameLength, setNameLength] = useState<keyof typeof name>("long")
+
   useLayoutEffect(
     () => {
-      if (window.innerWidth < 1024) setName(["Hi, I am", "Mikołaj \nBień"])
+      if (window.innerWidth < 1024) setNameLength("short")
+      else setNameLength("long")
     },
     /* eslint-disable */
-    []
+    [],
     /* eslint-enable */
   )
+  useEffect(() => {
+    const nthTime = localStorage.getItem("nthTime")
+
+    if (nthTime) return
+
+    localStorage.setItem("nthTime", "no")
+  }, [])
+
   return (
     <AddWindow
       name="info"
@@ -52,14 +67,19 @@ export default function Info() {
             className="text-9xl lg:text-2xl"
             onComplete={() => setStage(1)}
           >
-            {name[0]}
+            {[
+              localStorage.getItem("nthTime")
+                ? ""
+                : "This window only appears once by itself.",
+              name[nameLength][0],
+            ]}
           </TypingAnimation>
           {stage > 0 ? (
             <TypingAnimation
               onComplete={() => setStage(2)}
               className="text-9xl text-red-500 lg:text-2xl"
             >
-              {name[1]}
+              {name[nameLength][1]}
             </TypingAnimation>
           ) : null}
           <br />
@@ -70,9 +90,10 @@ export default function Info() {
               className="bg-cyan-400 text-black whitespace-pre-line"
               onComplete={() => setStage(3)}
             >
-              I have three years of experience in web development, specializing
-              in front-end technologies. I acquired my skills through self-study
-              and freelance projects in Poland.
+              {nameLength === "long" ? "Hi, I am ^^^ \n" : ""}I am aspiring web
+              developer with three years of experience in web development,
+              specializing in front-end technologies. I acquired my skills
+              through self-study and freelance projects in Poland.
             </TypingAnimation>
           ) : null}
           <br />
