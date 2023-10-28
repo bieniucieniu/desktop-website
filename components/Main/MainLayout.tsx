@@ -3,7 +3,6 @@ import { Taskbar } from "./Taskbar"
 import { WindowProvider, WindowsContainer } from "@/components/ui/Window"
 import WindowRenderer from "./WindowRenderer"
 import Icons from "./Icons"
-import Welcome from "./Welcome"
 export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <WindowProvider>
@@ -14,7 +13,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             <WindowRenderer />
             <Icons />
           </WindowsContainer>
-          <Welcome />
           <Taskbar className="z-0" />
         </main>
       </MainContextProvider>

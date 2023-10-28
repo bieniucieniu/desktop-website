@@ -1,5 +1,5 @@
 "use client"
-import { SetStateAction, createContext, useContext, useState } from "react"
+import { createContext, useContext, useState } from "react"
 import { Window } from "../ui/Window"
 import { redirect } from "next/navigation"
 
@@ -10,8 +10,6 @@ type MainContext = {
   addWindow: (id: string, props: Parameters<typeof Window>[0]) => void
   deleteWindow: (id: string) => void
   powerOff: () => void
-  welcome: boolean
-  setWelcome: React.Dispatch<SetStateAction<boolean>>
 }
 
 const MainContext = createContext<MainContext | null>(null)
@@ -33,7 +31,6 @@ export function MainContextProvider({
 }) {
   const [windows, setWindows] = useState<WindowProps[]>([])
   const [powered, setPowered] = useState<boolean>(true)
-  const [welcome, setWelcome] = useState<boolean>(true)
 
   function addWindow(id: string, props: Parameters<typeof Window>[0]) {
     const win = windows.find((w) => w.id === id)
@@ -66,8 +63,6 @@ export function MainContextProvider({
           setPowered(false)
           redirect("/")
         },
-        welcome,
-        setWelcome,
       }}
     >
       {powered ? children : null}
