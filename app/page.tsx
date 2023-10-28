@@ -10,7 +10,7 @@ export default function Home() {
     const nthTime = localStorage.getItem("nthTime")
     if (nthTime) return
     router.push("/info")
-  }, [])
+  }, [router])
 
   return null
 }
