@@ -45,6 +45,7 @@ export default function Info() {
     /* eslint-enable */
   )
   useEffect(() => {
+    if (typeof window === "undefined") return
     if (typeof window.localStorage === "undefined") return
     const nthTime = window.localStorage.getItem("nthTime")
     if (nthTime) return
@@ -68,6 +69,7 @@ export default function Info() {
             onComplete={() => setStage(1)}
           >
             {[
+              typeof window !== "undefined" &&
               typeof window.localStorage !== "undefined" &&
               window.localStorage.getItem("nthTime")
                 ? ""
