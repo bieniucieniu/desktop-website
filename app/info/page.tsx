@@ -45,7 +45,7 @@ export default function Info() {
     /* eslint-enable */
   )
   useEffect(() => {
-    if (typeof window === "undefined") return
+    if (typeof window.localStorage === "undefined") return
     const nthTime = window.localStorage.getItem("nthTime")
     if (nthTime) return
 
@@ -68,7 +68,8 @@ export default function Info() {
             onComplete={() => setStage(1)}
           >
             {[
-              localStorage.getItem("nthTime")
+              typeof window.localStorage !== "undefined" &&
+              window.localStorage.getItem("nthTime")
                 ? ""
                 : "This window only appears once by itself.",
               name[nameLength][0],
