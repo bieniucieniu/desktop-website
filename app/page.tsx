@@ -7,7 +7,8 @@ export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    const nthTime = localStorage.getItem("nthTime")
+    if (typeof window === "undefined") return
+    const nthTime = window.localStorage.getItem("nthTime")
     if (nthTime) return
     router.push("/info")
   }, [router])

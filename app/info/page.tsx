@@ -45,12 +45,11 @@ export default function Info() {
     /* eslint-enable */
   )
   useEffect(() => {
-    if (typeof localStorage === "undefined") return
-    const nthTime = localStorage.getItem("nthTime")
-
+    if (typeof window === "undefined") return
+    const nthTime = window.localStorage.getItem("nthTime")
     if (nthTime) return
 
-    localStorage.setItem("nthTime", "no")
+    window.localStorage.setItem("nthTime", "no")
   }, [])
 
   return (
