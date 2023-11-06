@@ -45,6 +45,7 @@ export default function Info() {
     /* eslint-enable */
   )
   useEffect(() => {
+    if (typeof localStorage === "undefined") return
     const nthTime = localStorage.getItem("nthTime")
 
     if (nthTime) return
