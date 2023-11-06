@@ -32,3 +32,7 @@ body {
   border-style: inset;
   border-color: white;
 }
+
+a {
+  cursor: pointer;
+}
