@@ -33,6 +33,9 @@ export default function Projects({
           <TabsTrigger value="portfolio" asChild>
             <Button>Portfolio</Button>
           </TabsTrigger>
+          <TabsTrigger value="midar" asChild>
+            <Button>Midar (IT co.)</Button>
+          </TabsTrigger>
           <TabsTrigger value="sorting" asChild>
             <Button>sorting</Button>
           </TabsTrigger>
@@ -82,6 +85,14 @@ export default function Projects({
                     this website is that the content in the window can be
                     rendered on the Next.js server.
                   </p>
+                </li>
+              </TabsTrigger>
+              <TabsTrigger value="midar" asChild>
+                <li className="group border-b">
+                  <h1 className="font-bold text-2xl group-hover:underline">
+                    Midar
+                  </h1>
+                  <p>IT company website, currently in production.</p>
                 </li>
               </TabsTrigger>
               <TabsTrigger value="sorting" asChild>
@@ -169,7 +180,7 @@ export default function Projects({
               information and a links at the bottom{" "}
               <Link
                 href="https://braciabien.pl/"
-                className="underline text-blue-600"
+                className="hover:underline text-blue-600"
                 target="_blank"
               >
                 Check it
@@ -178,7 +189,7 @@ export default function Projects({
               <Link
                 href="https://github.com/bieniucieniu/bracia-bien"
                 target="_blank"
-                className="text-blue-500 underline"
+                className="text-blue-500 hover:underline"
               >
                 it&apos;s github
               </Link>
@@ -234,7 +245,7 @@ export default function Projects({
               had many bugs and was unplayable. And finally, this is the result.
               <Link
                 href="https://breakout.bieniucieniu.pl/"
-                className="underline text-blue-600"
+                className="hover:underline text-blue-600"
                 target="_blank"
               >
                 Check it
@@ -245,7 +256,7 @@ export default function Projects({
               <Link
                 href="https://github.com/bieniucieniu/breakout"
                 target="_blank"
-                className="text-blue-500 underline"
+                className="text-blue-600 hover:underline"
               >
                 it&apos;s github
               </Link>
@@ -272,10 +283,34 @@ export default function Projects({
             <p>
               <Link
                 href="https://github.com/bieniucieniu/portfolio-website"
-                className="text-blue-500 underline"
+                className="text-blue-500 hover:underline"
                 target="_blank"
               >
                 it&apos;s github
+              </Link>
+            </p>
+          </article>
+        </TabsContent>
+        <TabsContent value="midar">
+          <article>
+            <h1>Midar</h1>
+            <p>
+              IT company website, currently in production.
+              <br />
+              <Link
+                className="hover:underline text-blue-600"
+                target="_blank"
+                href="https://midar.bieniucieniu.pl/"
+              >
+                preview
+              </Link>
+              <br />
+              <Link
+                className="hover:underline text-blue-600"
+                target="_blank"
+                href="https://midar-seven.vercel.app/"
+              >
+                previous version
               </Link>
             </p>
           </article>
@@ -295,7 +330,7 @@ export default function Projects({
                   <br />
                   <Link
                     href="https://sorting.bieniucieniu.pl/"
-                    className="underline text-blue-600"
+                    className="hover:underline text-blue-600"
                     target="_blank"
                   >
                     Please check it out.
@@ -303,7 +338,7 @@ export default function Projects({
                   and{" "}
                   <Link
                     href="https://github.com/bieniucieniu/bracia-bien"
-                    className="text-blue-500 underline"
+                    className="text-blue-500 hover:underline"
                     target="_blank"
                   >
                     it&apos;s github
@@ -345,7 +380,7 @@ export default function Projects({
               speed.{" "}
               <Link
                 href="https://weather-app.bieniucieniu.pl/"
-                className="underline text-blue-600"
+                className="hover:underline text-blue-600"
                 target="_blank"
               >
                 Check it
@@ -353,20 +388,12 @@ export default function Projects({
               and{" "}
               <Link
                 href="https://github.com/bieniucieniu/weather-app-angular"
-                className="text-blue-500 underline"
+                className="text-blue-500 hover:underline"
                 target="_blank"
               >
                 it&apos;s github
               </Link>
             </p>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <p className="text-stone-200">I don&apos;t linke angular btw</p>
           </article>
         </TabsContent>
         <TabsContent value="other">
@@ -376,7 +403,7 @@ export default function Projects({
             if u intrested check{" "}
             <Link
               href="https://github.com/bieniucieniu"
-              className="text-blue-500 underline"
+              className="text-blue-500 hover:underline"
               target="_blank"
             >
               github
