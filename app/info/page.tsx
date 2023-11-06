@@ -1,6 +1,6 @@
 "use client"
 import { AddWindow } from "@/components/Main/WindowRenderer"
-import TypingAnimation from "@/components/TypingAnimation"
+import TypeAnimation from "@/components/TypeAnimation"
 import { useLayoutEffect, useEffect, useRef, useState } from "react"
 
 const name = {
@@ -63,7 +63,7 @@ export default function Info() {
         className="max-h-[710px] overflow-y-scroll"
       >
         <article className="text-2xl whitespace-pre leading-[1.42rem] max-w-screen-lg">
-          <TypingAnimation
+          <TypeAnimation
             className="text-9xl lg:text-2xl"
             onComplete={() => setStage(1)}
           >
@@ -73,19 +73,19 @@ export default function Info() {
                 : "This window only appears once by itself.",
               name[nameLength][0],
             ]}
-          </TypingAnimation>
+          </TypeAnimation>
           {stage > 0 ? (
-            <TypingAnimation
+            <TypeAnimation
               onComplete={() => setStage(2)}
               className="text-9xl text-red-500 lg:text-2xl"
             >
               {name[nameLength][1]}
-            </TypingAnimation>
+            </TypeAnimation>
           ) : null}
           <br />
           <br />
           {stage > 1 ? (
-            <TypingAnimation
+            <TypeAnimation
               speed={70}
               className="bg-cyan-400 text-black whitespace-pre-line"
               onComplete={() => setStage(3)}
@@ -94,11 +94,11 @@ export default function Info() {
               developer with three years of experience in web development,
               specializing in front-end technologies. I acquired my skills
               through self-study and freelance projects in Poland.
-            </TypingAnimation>
+            </TypeAnimation>
           ) : null}
           <br />
           {stage > 2 ? (
-            <TypingAnimation
+            <TypeAnimation
               onComplete={() => setStage(4)}
               speed={50}
               className="whitespace-pre-line"
@@ -107,12 +107,12 @@ export default function Info() {
               tools for web development. I also employ various libraries and
               add-ons, such as React-Free-Fiber/drei, Radix-ui, framer-motion,
               tailwind, vanilla-extract-css, zod, drizzle and others.
-            </TypingAnimation>
+            </TypeAnimation>
           ) : null}
           <br />
 
           {stage > 3 ? (
-            <TypingAnimation
+            <TypeAnimation
               onComplete={() => setStage(5)}
               speed={50}
               className="whitespace-pre-line bg-orange-50 text-black"
@@ -121,16 +121,16 @@ export default function Info() {
               programming, which gives me a deeper understanding of JavaScript.
               I am proficient in working with bash and other tools in a headless
               environment.
-            </TypingAnimation>
+            </TypeAnimation>
           ) : null}
           <br />
           {stage > 4 ? (
-            <TypingAnimation speed={50} className="whitespace-pre-line">
+            <TypeAnimation speed={50} className="whitespace-pre-line">
               Please take a look at my projects, which you can access by
               clicking on the icon on the Desktop or use the start menu at the
               bottom. This page is still under development, so I appreciate your
               patience and feedback.
-            </TypingAnimation>
+            </TypeAnimation>
           ) : null}
           <br />
           <br />
