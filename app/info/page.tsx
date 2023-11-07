@@ -3,10 +3,8 @@ import { AddWindow } from "@/components/Main/WindowRenderer"
 import TypeAnimation from "@/components/TypeAnimation"
 import { useLayoutEffect, useEffect, useRef, useState } from "react"
 
-const name = {
-  short: "",
-  long: [
-    ` _   .-')          ._. .-')                         ('-.             
+const name = [
+  ` _   .-')          ._. .-')                         ('-.             
 ( '.( OO )_        \\  ( OO )                       ( OO ).-.         
  ,--.   ,--.),-.-'),--. ,--. .-'),-----. ,--.      / . --. /    ,--. 
  |   \`.'   | |  |OO|  .'   /( OO'  .-.  '|  | .-') | \\-.  \\ .-')| ,| 
@@ -15,7 +13,7 @@ const name = {
  |  |   |  |,|  |_.|  .   \\   \\ |  | |  |/  '---.' |  .-.  ,--. |  | 
  |  |   |  (_|  |  |  |\    \\   \`'  '-'  |/      |  |  | |  |  '-'  / 
  \`--'   \`--' \`--'  \`--' '--'     \`-----' \`------'  \`--' \`--'\`-----'  \n`,
-    `._. .-')            ('-.      .-') _  
+  `._. .-')            ('-.      .-') _  
 \\  ( OO )         _(  OO)    ( OO ) ) 
  ;-----.\\  ,_.-')(,------,--.//,--,'  
  | .-.  |  |  |OO)|  .---|   \\ |  |\\  
@@ -24,8 +22,7 @@ const name = {
  | |  \\  |,|  |_.'|  .--'|  |\\    |   
  | '--'  (_|  |   |  \`---|  | \\   |   
  \`------'  \`--'   \`------\`--'  \`--' \n`,
-  ],
-}
+]
 
 export default function Info() {
   const [stage, setStage] = useState<0 | 1 | 2 | 3 | 4 | 5>(0)
@@ -33,12 +30,15 @@ export default function Info() {
   useEffect(() => {
     scrollingRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
   }, [stage])
-  const [nameLength, setNameLength] = useState<keyof typeof name>("long")
+  const [nameLength, setNameLength] = useState<"long" | undefined>(undefined)
 
   useLayoutEffect(
     () => {
-      if (window.innerWidth < 1024) setNameLength("short")
-      else setNameLength("long")
+      if (window.innerWidth >= 1024) setNameLength("long")
+      else {
+        setNameLength("long")
+        setStage(2)
+      }
     },
     /* eslint-disable */
     [],
@@ -57,19 +57,25 @@ export default function Info() {
         className="h-[666px] overflow-y-scroll"
       >
         <article className="text-2xl whitespace-pre leading-[1.42rem] max-w-screen-lg">
-          <TypeAnimation
-            className="text-9xl lg:text-2xl"
-            onComplete={() => setStage(1)}
-          >
-            {name[nameLength][0]}
-          </TypeAnimation>
-          {stage > 0 ? (
-            <TypeAnimation
-              onComplete={() => setStage(2)}
-              className="text-9xl text-red-500 lg:text-2xl"
-            >
-              {name[nameLength][1]}
-            </TypeAnimation>
+          {nameLength === "long" ? (
+            <>
+              <TypeAnimation
+                className="text-9xl lg:text-2xl"
+                onComplete={() => setStage(1)}
+                speed={Infinity}
+              >
+                {name[0]}
+              </TypeAnimation>
+              {stage > 0 ? (
+                <TypeAnimation
+                  onComplete={() => setStage(2)}
+                  className="text-9xl text-red-500 lg:text-2xl"
+                  speed={Infinity}
+                >
+                  {name[1]}
+                </TypeAnimation>
+              ) : null}
+            </>
           ) : null}
           <br />
           <br />
