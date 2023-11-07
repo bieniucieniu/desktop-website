@@ -47,14 +47,6 @@ export default function Info() {
   )
   const firstTime = useSearchParams().get("firstTime") === "true"
 
-  useEffect(() => {
-    if (typeof window === "undefined") return
-    const nthTime = window.localStorage.getItem("nthTime")
-    if (nthTime) return
-
-    window.localStorage.setItem("nthTime", "no")
-  }, [])
-
   return (
     <AddWindow
       title={
