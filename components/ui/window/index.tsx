@@ -1,101 +1,23 @@
 "use client"
-import { twMerge } from "tailwind-merge"
+import { Button } from "@/components/ui/Button"
+import { Slot } from "@radix-ui/react-slot"
+import type { HTMLMotionProps } from "framer-motion"
 import {
-  HTMLMotionProps,
-  MotionValue,
   motion,
   useAnimationControls,
   useDragControls,
   useMotionValue,
   useTransform,
 } from "framer-motion"
-import { Button } from "./Button"
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react"
-
-import { Slot } from "@radix-ui/react-slot"
-
-type WindowProps = {
-  name: string
-  layer: MotionValue<number>
-  open: MotionValue<boolean>
-  fullScreen: MotionValue<boolean>
-}
-
-type WindowsMap = Map<string, WindowProps>
-
-type WindowContext = {
-  windows: WindowsMap
-  setWindows: React.Dispatch<React.SetStateAction<WindowsMap>>
-}
-
-type Boundry = {
-  top: number
-  left: number
-  right: number
-  bottom: number
-}
-
-type WindowBoundryContext = {
-  constraints: MotionValue<Boundry | undefined>
-}
-
-const WindowContext = createContext<WindowContext | null>(null)
-const WindowConstraintsContext = createContext<WindowBoundryContext | null>(
-  null,
-)
-
-function useWindowContext() {
-  const context = useContext(WindowContext)
-
-  if (context === null) {
-    throw new Error("not in window context")
-  }
-
-  return context
-}
-
-function useWindowBoundry() {
-  const context = useContext(WindowConstraintsContext)
-  if (!context) return undefined
-
-  return context.constraints
-}
-
-export function useWindows() {
-  const { windows } = useWindowContext()
-  function focusWindow(id: string) {
-    const win = windows.get(id)
-    if (!win) return
-    const oldLayer = win.layer.get()
-    win.layer.set(windows.size)
-
-    windows.forEach((w, key) => {
-      if (key === id) return
-      const l = w.layer.get()
-      if (l > oldLayer) {
-        w.layer.set(l - 1)
-      }
-    })
-  }
-  const WindowsControlls = [...windows.keys()].map((id) => {
-    const w = windows.get(id)
-    if (!w) return
-    return {
-      id,
-      focusWindow: () => focusWindow(id),
-      ...w,
-    }
-  })
-
-  return { WindowsControlls }
-}
+import { useEffect, useRef, useState } from "react"
+import { twMerge } from "tailwind-merge"
+import {
+  Boundry,
+  WindowConstraintsContext,
+  WindowContext,
+  useWindowBoundry,
+  useWindowContext,
+} from "./context"
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
   const [windows, setWindows] = useState(new Map())
@@ -107,22 +29,9 @@ export function WindowProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function Window({
-  children,
-  className,
-  name,
-  defaultOpen = true,
-  defaultFullScreen = false,
-  onClose,
-  onPointerDown,
-  defaultSize,
-  phone,
-  defaultPosition = { x: 200, y: 200 },
-  customId = undefined,
-  ...props
-}: HTMLMotionProps<"div"> & {
-  customId?: string
-  name: string
+export type WindowProps = Omit<HTMLMotionProps<"div">, "title"> & {
+  id: string
+  title?: React.ReactNode
   defaultOpen?: boolean
   defaultFullScreen?: boolean
   defaultSize?: {
@@ -133,11 +42,24 @@ export function Window({
   defaultPosition?: { x: number; y: number }
   children?: React.ReactElement
   onClose?: (id: string) => void
-}) {
+}
+
+export function Window({
+  id,
+  children,
+  className,
+  title,
+  defaultOpen = true,
+  defaultFullScreen = false,
+  onClose,
+  onPointerDown,
+  defaultSize,
+  phone,
+  defaultPosition = { x: 200, y: 200 },
+  ...props
+}: WindowProps) {
   const dragControlls = useDragControls()
   const { windows, setWindows } = useWindowContext()
-  const i = useId()
-  const id = customId ?? i
   const open = useMotionValue<boolean>(defaultOpen ?? true)
   const fullScreen = useMotionValue<boolean>(
     defaultFullScreen ?? window.innerWidth < 1024,
@@ -149,7 +71,6 @@ export function Window({
     windows.set(id, {
       open,
       fullScreen,
-      name,
       layer,
     })
     setWindows(new Map(windows))
@@ -300,7 +221,7 @@ export function Window({
           if (!fullScreen.get()) dragControlls.start(e)
         }}
       >
-        <h3 className="text-zinc-800 pl-2 text-xl font-bold">{name}</h3>
+        <h3 className="text-zinc-800 pl-2 text-xl font-bold">{title ?? id}</h3>
         <section className="flex gap-x-1 pr-1 py-1">
           <Button
             className="border-2 border-outset font-bold w-[28px]"
@@ -373,3 +294,5 @@ export function WindowsContainer({
     </WindowConstraintsContext.Provider>
   )
 }
+
+export { useWindows } from "./context"

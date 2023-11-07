@@ -1,12 +1,11 @@
 "use client"
 import { createContext, useContext, useState } from "react"
-import { Window } from "../ui/Window"
 import { redirect } from "next/navigation"
-
-type WindowProps = { props: Parameters<typeof Window>[0]; id: string }
+import { Window } from "../ui/window"
+import type { WindowProps } from "@/components/ui/window"
 
 type MainContext = {
-  windows: WindowProps[]
+  windows: { id: string; props: WindowProps }[]
   addWindow: (id: string, props: Parameters<typeof Window>[0]) => void
   deleteWindow: (id: string) => void
   powerOff: () => void
@@ -29,10 +28,10 @@ export function MainContextProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [windows, setWindows] = useState<WindowProps[]>([])
+  const [windows, setWindows] = useState<MainContext["windows"]>([])
   const [powered, setPowered] = useState<boolean>(true)
 
-  function addWindow(id: string, props: Parameters<typeof Window>[0]) {
+  function addWindow(id: string, props: WindowProps) {
     const win = windows.find((w) => w.id === id)
 
     if (win) {

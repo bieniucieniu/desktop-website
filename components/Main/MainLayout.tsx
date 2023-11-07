@@ -1,6 +1,6 @@
 import { MainContextProvider } from "./MainContext"
 import { Taskbar } from "./Taskbar"
-import { WindowProvider, WindowsContainer } from "@/components/ui/Window"
+import { WindowProvider, WindowsContainer } from "@/components/ui/window"
 import WindowRenderer from "./WindowRenderer"
 import Icons from "./Icons"
 export function MainLayout({ children }: { children: React.ReactNode }) {

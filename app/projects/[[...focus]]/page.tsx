@@ -12,7 +12,7 @@ export default function Projects({
   const { focus } = params
   return (
     <AddWindow
-      name="projects"
+      id="projects"
       defaultSize={{ width: 1000, height: 680 }}
       defaultPosition={{ x: 100, y: 10 }}
     >
@@ -46,7 +46,7 @@ export default function Projects({
             <Button>other</Button>
           </TabsTrigger>
         </TabsList>
-        <TabsContent className="" value="list">
+        <TabsContent className="max-h-[600px] overflow-y-auto" value="list">
           <TabsList asChild>
             <ul className="flex flex-col gap-y-3 p-2 text-xl max-w-screen-lg">
               <TabsTrigger value="braciabien" asChild>

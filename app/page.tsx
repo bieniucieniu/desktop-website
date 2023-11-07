@@ -11,7 +11,7 @@ export default function Home() {
 
     const nthTime = window.localStorage.getItem("nthTime")
     if (nthTime) return
-    router.push("/info")
+    router.push("/info?firstTime=true")
   }, [router])
 
   return null

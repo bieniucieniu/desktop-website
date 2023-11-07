@@ -2,6 +2,7 @@
 import { AddWindow } from "@/components/Main/WindowRenderer"
 import TypeAnimation from "@/components/TypeAnimation"
 import { useLayoutEffect, useEffect, useRef, useState } from "react"
+import { useSearchParams } from "next/navigation"
 
 const name = {
   short: ["Hi, I am", "Mikołaj \nBień"],
@@ -44,6 +45,8 @@ export default function Info() {
     [],
     /* eslint-enable */
   )
+  const firstTime = useSearchParams().get("firstTime") === "true"
+
   useEffect(() => {
     if (typeof window === "undefined") return
     const nthTime = window.localStorage.getItem("nthTime")
@@ -54,7 +57,17 @@ export default function Info() {
 
   return (
     <AddWindow
-      name="info"
+      title={
+        <p>
+          info{" "}
+          {firstTime ? (
+            <span className="text-stone-600">
+              This window only appears once by itself
+            </span>
+          ) : null}
+        </p>
+      }
+      id="info"
       defaultPosition={{ x: 100, y: 10 }}
       defaultSize={{ width: 1024, height: 710 }}
     >
@@ -67,13 +80,7 @@ export default function Info() {
             className="text-9xl lg:text-2xl"
             onComplete={() => setStage(1)}
           >
-            {[
-              typeof window !== "undefined" &&
-              window.localStorage.getItem("nthTime")
-                ? ""
-                : "This window only appears once by itself.",
-              name[nameLength][0],
-            ]}
+            {name[nameLength][0]}
           </TypeAnimation>
           {stage > 0 ? (
             <TypeAnimation

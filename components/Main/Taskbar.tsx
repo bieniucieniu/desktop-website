@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge"
 import Clock from "./Clock"
 import MainMenu from "./MainMenu"
 import * as Separator from "@radix-ui/react-separator"
-import { useWindows } from "../ui/Window"
+import { useWindows } from "../ui/window"
 import { MButton } from "../ui/MButton"
 
 function WindowButton({ style, ...props }: Parameters<typeof MButton>[0] & {}) {
@@ -16,7 +16,7 @@ export function Taskbar({ className }: { className?: string }) {
     <nav
       className={twMerge(
         "flex flex-row justify-between border-taskbar border-2 bg-zinc-300 py-0.5 px-2",
-        className
+        className,
       )}
     >
       <section className="flex flex-row gap-x-1">
@@ -26,8 +26,9 @@ export function Taskbar({ className }: { className?: string }) {
           className="border-outset border my-0.5"
         />
         <ul className="flex flex-col flex-wrap">
-          {WindowsControlls.map((e) =>
-            e ? (
+          {WindowsControlls.map((e) => {
+            console.log(e?.id)
+            return e ? (
               <li key={e.id}>
                 <WindowButton
                   onClick={() => {
@@ -35,11 +36,11 @@ export function Taskbar({ className }: { className?: string }) {
                     e.focusWindow()
                   }}
                 >
-                  {e.name}
+                  {e.id}
                 </WindowButton>
               </li>
             ) : null
-          )}
+          })}
         </ul>
       </section>
       <Clock />
