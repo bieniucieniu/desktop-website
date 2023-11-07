@@ -2,10 +2,9 @@
 import { AddWindow } from "@/components/Main/WindowRenderer"
 import TypeAnimation from "@/components/TypeAnimation"
 import { useLayoutEffect, useEffect, useRef, useState } from "react"
-import { useSearchParams } from "next/navigation"
 
 const name = {
-  short: ["Hi, I am", "Mikołaj \nBień"],
+  short: "",
   long: [
     ` _   .-')          ._. .-')                         ('-.             
 ( '.( OO )_        \\  ( OO )                       ( OO ).-.         
@@ -45,27 +44,17 @@ export default function Info() {
     [],
     /* eslint-enable */
   )
-  const firstTime = useSearchParams().get("firstTime") === "true"
 
   return (
     <AddWindow
-      title={
-        <p>
-          info{" "}
-          {firstTime ? (
-            <span className="text-stone-600">
-              This window only appears once by itself
-            </span>
-          ) : null}
-        </p>
-      }
+      title={<p>info / about</p>}
       id="info"
       defaultPosition={{ x: 100, y: 10 }}
       defaultSize={{ width: 1024, height: 710 }}
     >
       <div
         style={{ scrollbarGutter: "stable" }}
-        className="max-h-[710px] overflow-y-scroll"
+        className="h-[666px] overflow-y-scroll"
       >
         <article className="text-2xl whitespace-pre leading-[1.42rem] max-w-screen-lg">
           <TypeAnimation
@@ -90,10 +79,9 @@ export default function Info() {
               className="bg-cyan-400 text-black whitespace-pre-line"
               onComplete={() => setStage(3)}
             >
-              {nameLength === "long" ? "Hi, I am ^^^ \n" : ""}I am aspiring web
-              developer with three years of experience in web development,
-              specializing in front-end technologies. I acquired my skills
-              through self-study and freelance projects in Poland.
+              I am aspiring web developer with three years of experience in web
+              development, specializing in front-end technologies. I acquired my
+              skills through self-study and freelance projects in Poland.
             </TypeAnimation>
           ) : null}
           <br />
