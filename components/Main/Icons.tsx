@@ -6,7 +6,7 @@ export default function Icons({ className }: { className: string }) {
     <div
       className={twMerge(
         className,
-        "p-2 grid grid-flow-col grid-cols-[repeat(auto-fill,_100px)] grid-rows-[repeat(auto-fill,_120px)] gap-4",
+        "p-2 grid grid-cols-[repeat(auto-fill,_100px)] grid-rows-[repeat(auto-fill,_120px)] gap-4 md:grid-flow-col",
       )}
     >
       <NextLink
