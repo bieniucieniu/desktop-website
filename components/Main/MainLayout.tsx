@@ -3,15 +3,17 @@ import { Taskbar } from "./Taskbar"
 import { WindowProvider, WindowsContainer } from "@/components/ui/window"
 import WindowRenderer from "./WindowRenderer"
 import Icons from "./Icons"
+import Wallpaper from "./Wallpaper"
 export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <WindowProvider>
       <MainContextProvider>
         <main className="grid grid-rows-[1fr_38px] h-[calc(100svh)]">
-          <WindowsContainer className="bg-teal-400 relative overflow-hidden z-0">
+          <WindowsContainer className="relative overflow-hidden z-0">
             {children}
+            <Wallpaper className="absolute inset-0" />
+            <Icons className="absolute inset-0" />
             <WindowRenderer />
-            <Icons />
           </WindowsContainer>
           <Taskbar className="z-0" />
         </main>

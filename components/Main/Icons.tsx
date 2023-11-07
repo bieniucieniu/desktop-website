@@ -1,8 +1,14 @@
 import NextLink from "next/link"
+import { twMerge } from "tailwind-merge"
 
-export default function Icons() {
+export default function Icons({ className }: { className: string }) {
   return (
-    <div className="p-2 absolute inset-0 grid grid-flow-col grid-cols-[repeat(auto-fill,_100px)] grid-rows-[repeat(auto-fill,_120px)] gap-4">
+    <div
+      className={twMerge(
+        className,
+        "p-2 grid grid-flow-col grid-cols-[repeat(auto-fill,_100px)] grid-rows-[repeat(auto-fill,_120px)] gap-4",
+      )}
+    >
       <NextLink
         target="_blank"
         href="https://github.com/bieniucieniu"
@@ -58,8 +64,8 @@ export default function Icons() {
             fill="currentColor"
           />
         </svg>
-        <p className="text-center group-hover:underline text-3xl truncate">
-          info
+        <p className="text-center group-hover:underline text-3xl truncate group-hover:whitespace-normal">
+          info / about
         </p>
       </NextLink>
       <NextLink
