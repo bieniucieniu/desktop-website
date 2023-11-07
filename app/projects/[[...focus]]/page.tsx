@@ -46,7 +46,7 @@ export default function Projects({
             <Button>other</Button>
           </TabsTrigger>
         </TabsList>
-        <TabsContent className="max-h-[600px] overflow-y-auto" value="list">
+        <TabsContent className="h-full overflow-y-auto" value="list">
           <TabsList asChild>
             <ul className="flex flex-col gap-y-3 p-2 text-xl max-w-screen-lg">
               <TabsTrigger value="braciabien" asChild>
@@ -133,10 +133,7 @@ export default function Projects({
             </ul>
           </TabsList>
         </TabsContent>
-        <TabsContent
-          className="max-h-[600px] overflow-y-auto"
-          value="braciabien"
-        >
+        <TabsContent className="h-full overflow-y-auto" value="braciabien">
           <article className="max-w-screen-lg py-3">
             <h1 className="text-3xl bg-red-50 my-3">simple company webpage</h1>
             <span className="flex flex-row mb-3">
@@ -209,7 +206,7 @@ export default function Projects({
             </label>
           </article>
         </TabsContent>
-        <TabsContent className="max-h-[600px] overflow-y-auto" value="breakout">
+        <TabsContent className="h-full overflow-y-auto" value="breakout">
           <article className="max-w-screen-lg overflow-y-auto pb-3">
             <h1 className="text-5xl text-center">BREAKOUT</h1>
             <span className="grid lg:grid-cols-[auto_500px_auto] justify-center items-center bg-black">
@@ -263,7 +260,7 @@ export default function Projects({
             </p>
           </article>
         </TabsContent>
-        <TabsContent value="portfolio">
+        <TabsContent className="h-full overflow-y-auto" value="portfolio">
           <article>
             <h1 className="flex flex-row justify-around items-center text-3xl">
               Portfolio website
@@ -291,7 +288,7 @@ export default function Projects({
             </p>
           </article>
         </TabsContent>
-        <TabsContent value="midar">
+        <TabsContent className="h-full overflow-y-auto" value="midar">
           <article>
             <h1>Midar</h1>
             <p>
@@ -315,7 +312,7 @@ export default function Projects({
             </p>
           </article>
         </TabsContent>
-        <TabsContent value="sorting">
+        <TabsContent className="h-full overflow-y-auto" value="sorting">
           <article className="max-w-screen-lg">
             <span className="items-center bg-black gap-2 grid lg:grid-cols-[1fr_300px]">
               <span>
@@ -371,7 +368,7 @@ export default function Projects({
             </span>
           </article>
         </TabsContent>
-        <TabsContent value="weatherapp">
+        <TabsContent className="h-full overflow-y-auto" value="weatherapp">
           <article>
             <h1>weather app</h1>
             <p>
@@ -396,7 +393,7 @@ export default function Projects({
             </p>
           </article>
         </TabsContent>
-        <TabsContent value="other">
+        <TabsContent className="h-full overflow-y-auto" value="other">
           <article className="text-3xl">
             other are comming soon <span className="text-zinc-200">i hope</span>
             <br />

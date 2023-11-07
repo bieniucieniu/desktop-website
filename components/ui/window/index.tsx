@@ -268,7 +268,9 @@ export function Window({
           ) : null}
         </section>
       </nav>
-      <Slot>{children}</Slot>
+      <div className="overflow-auto w-full h-full">
+        <Slot>{children}</Slot>
+      </div>
     </motion.div>
   )
 }
