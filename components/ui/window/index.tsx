@@ -279,6 +279,9 @@ export function Window({
       <div className="overflow-auto w-full h-full">
         <Slot>{children}</Slot>
       </div>
+      <button className="absolute overflow-hidden bottom-0 right-0 h-4 w-4">
+        <div className="border-inset border-2 h-6 w-6 rotate-45 translate-x-1.5 translate-y-1.5 bg-stone-500"></div>
+      </button>
     </motion.div>
   )
 }
