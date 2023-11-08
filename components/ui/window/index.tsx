@@ -59,13 +59,82 @@ export function Window({
   ...props
 }: WindowProps) {
   const dragControlls = useDragControls()
+  const animationControlls = useAnimationControls()
   const { windows, setWindows } = useWindowContext()
   const open = useMotionValue<boolean>(defaultOpen ?? true)
   const fullScreen = useMotionValue<boolean>(
     defaultFullScreen ?? window.innerWidth < 1024,
   )
-
   const layer = useMotionValue<number>(windows.size + 1)
+  const ref = useRef<HTMLDivElement>(null)
+  const boundry = useWindowBoundry()
+  const inset = useTransform(() => {
+    if (fullScreen.get()) return 0
+    return "auto"
+  })
+  const lastPosition = useMotionValue(defaultPosition)
+  const width = useTransform(() => {
+    if (phone || fullScreen.get()) return "auto"
+    const { x } = lastPosition.get()
+    const { right } = boundry?.get() ?? {
+      right: window.innerWidth,
+    }
+    const w = defaultSize?.width ?? 400
+    const maxW = right - x
+    return w > maxW ? maxW : w
+  })
+
+  const height = useTransform(() => {
+    if (phone || fullScreen.get()) return "auto"
+    const { y } = lastPosition.get()
+    const { bottom } = boundry?.get() ?? {
+      bottom: window.innerHeight,
+    }
+    const h = defaultSize?.height ?? 300
+    const maxH = bottom - y - 38
+    return h > maxH ? maxH : h
+  })
+
+  const constraints = useTransform(() => {
+    const c = boundry?.get()
+    if (!c) return undefined
+    if (ref.current) {
+      return {
+        top: c.top,
+        left: c.left,
+        right: c.right - ref.current.clientWidth,
+        bottom: c.bottom - ref.current.clientHeight,
+      }
+    }
+    return {
+      top: c.top,
+      left: c.left,
+      right: c.right - 400,
+      bottom: c.bottom - 300,
+    }
+  })
+
+  fullScreen.on("change", (fs) => {
+    if (fs === true)
+      return setPosition({
+        x: undefined,
+        y: undefined,
+      })
+
+    if (fs === false) return setPosition(lastPosition.get())
+  })
+
+  open.on("change", (latest) => {
+    if (latest) {
+      animationControlls.start({ opacity: 1, scale: 1 })
+    } else {
+      animationControlls.start({ scale: 0.5, opacity: 0 })
+    }
+  })
+
+  useEffect(() => {
+    animationControlls.start({ opacity: 1, scale: 1 })
+  }, [])
 
   useEffect(() => {
     windows.set(id, {
@@ -103,46 +172,6 @@ export function Window({
     setWindows(new Map(windows))
   }
 
-  const ref = useRef<HTMLDivElement>(null)
-
-  const boundry = useWindowBoundry()
-  const constraints = useTransform(() => {
-    const c = boundry?.get()
-    if (!c) return undefined
-    if (ref.current) {
-      return {
-        top: c.top,
-        left: c.left,
-        right: c.right - ref.current.clientWidth,
-        bottom: c.bottom - ref.current.clientHeight,
-      }
-    }
-    return {
-      top: c.top,
-      left: c.left,
-      right: c.right - 400,
-      bottom: c.bottom - 300,
-    }
-  })
-
-  const inset = useTransform(() => {
-    if (fullScreen.get()) return 0
-    return "auto"
-  })
-  const animationControls = useAnimationControls()
-  const lastPosition = useMotionValue(defaultPosition)
-
-  fullScreen.on("change", (fs) => {
-    if (fs === true)
-      return setPosition({
-        x: undefined,
-        y: undefined,
-      })
-
-    if (fs === false) return setPosition(lastPosition.get())
-  })
-  const visibility = useTransform(() => (open.get() ? "visible" : "hidden"))
-
   function saveLastPosition({ x, y }: { x: number; y: number }) {
     const c = constraints.get()
     if (c) {
@@ -159,34 +188,14 @@ export function Window({
     x: number | undefined
     y: number | undefined
   }) {
-    return animationControls.set(props)
+    return animationControlls.set(props)
   }
-
-  const width = useTransform(() => {
-    if (phone || fullScreen.get()) return "auto"
-    const { x } = lastPosition.get()
-    const { right } = boundry?.get() ?? {
-      right: window.innerWidth,
-    }
-    const w = defaultSize?.width ?? 400
-    const maxW = right - x
-    return w > maxW ? maxW : w
-  })
-
-  const height = useTransform(() => {
-    if (phone || fullScreen.get()) return "auto"
-    const { y } = lastPosition.get()
-    const { bottom } = boundry?.get() ?? {
-      bottom: window.innerHeight,
-    }
-    const h = defaultSize?.height ?? 300
-    const maxH = bottom - y - 38
-    return h > maxH ? maxH : h
-  })
 
   return (
     <motion.div
-      animate={animationControls}
+      animate={animationControlls}
+      initial={{ scale: 0.5, opacity: 0.5 }}
+      exit={{ scale: 0.5, opacity: 0 }}
       className="border-outset grid grid-rows-[40px_1fr] items-stretch justify-stretch bg-zinc-800 border-2 border-zinc-300 select-none max-h-[calc(100svh_-_38px)]"
       layoutId={id}
       ref={ref}
@@ -204,7 +213,6 @@ export function Window({
         height,
         inset,
         zIndex: layer,
-        visibility,
       }}
       {...props}
       onPointerDown={(e) => {
