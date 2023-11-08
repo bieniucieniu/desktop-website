@@ -49,12 +49,12 @@ export default function Info() {
     <AddWindow
       title={<p>info / about</p>}
       id="info"
-      defaultPosition={{ x: 100, y: 10 }}
-      defaultSize={{ width: 1024, height: 710 }}
+      defaultSize={{ width: 1000, height: 680 }}
+      defaultPosition={{ x: 130, y: 40 }}
     >
       <div
         style={{ scrollbarGutter: "stable" }}
-        className="h-[666px] overflow-y-scroll"
+        className="h-full overflow-y-scroll"
       >
         <article className="text-2xl whitespace-pre leading-[1.42rem] max-w-screen-lg">
           {nameLength === "long" ? (
