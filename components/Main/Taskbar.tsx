@@ -25,9 +25,8 @@ export function Taskbar({ className }: { className?: string }) {
           orientation="vertical"
           className="border-outset border my-0.5"
         />
-        <ul className="flex flex-col flex-wrap">
+        <ul className="flex flex-col flex-wrap gap-x-1">
           {WindowsControlls.map((e) => {
-            console.log(e?.id)
             return e ? (
               <li key={e.id}>
                 <WindowButton
