@@ -1,6 +1,6 @@
 "use client";
 import type { MotionValue } from "framer-motion";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 
 type WindowInfoProps = {
 	layer: MotionValue<number>;
@@ -31,13 +31,13 @@ export const WindowConstraintsContext =
 	createContext<WindowBoundryContext | null>(null);
 
 export function useWindowContext() {
-	const context = useContext(WindowContext);
+	const ctx = useContext(WindowContext);
 
-	if (context === null) {
+	if (ctx === null) {
 		throw new Error("not in window context");
 	}
 
-	return context;
+	return ctx;
 }
 
 export function useWindowBoundry() {
@@ -47,31 +47,33 @@ export function useWindowBoundry() {
 	return context.constraints;
 }
 
-export function useWindows() {
-	const { windows } = useWindowContext();
-	function focusWindow(id: string) {
-		const win = windows.get(id);
-		if (!win) return;
-		const oldLayer = win.layer.get();
-		win.layer.set(windows.size);
+function focusWindow(this: WindowContext, id: string) {
+	const win = this.windows.get(id);
+	if (!win) return;
+	const oldLayer = win.layer.get();
+	win.layer.set(this.windows.size);
 
-		windows.forEach((w, key) => {
-			if (key === id) return;
-			const l = w.layer.get();
-			if (l > oldLayer) {
-				w.layer.set(l - 1);
-			}
-		});
-	}
-	const WindowsControlls = [...windows.keys()].map((id) => {
-		const w = windows.get(id);
-		if (!w) return;
-		return {
-			id,
-			focusWindow: () => focusWindow(id),
-			...w,
-		};
+	this.windows.forEach((w, key) => {
+		if (key === id) return;
+		const l = w.layer.get();
+		if (l > oldLayer) {
+			w.layer.set(l - 1);
+		}
 	});
+}
+export function useWindows() {
+	const ctx = useWindowContext();
+	const WindowsControlls = useMemo(() => {
+		return [...ctx.windows.keys()].map((id) => {
+			const w = ctx.windows.get(id);
+			if (!w) return;
+			return {
+				id,
+				focusWindow: focusWindow.bind(ctx, id),
+				...w,
+			};
+		});
+	}, [ctx.windows, ctx]);
 
 	return { WindowsControlls };
 }

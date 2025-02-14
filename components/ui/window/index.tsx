@@ -9,7 +9,7 @@ import {
 	useMotionValue,
 	useTransform,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
 	type Boundry,
@@ -154,7 +154,8 @@ export function Window({
 			if (s) setWindows(new Map(windows));
 		};
 	}, [defaultFullScreen, phone]);
-	function focusWindow() {
+	// biome-ignore lint/correctness/useExhaustiveDependencies:
+	const focusWindow = useCallback(() => {
 		const win = windows.get(id);
 		if (!win) return;
 		const oldLayer = win.layer.get();
@@ -169,26 +170,32 @@ export function Window({
 		});
 
 		setWindows(new Map(windows));
-	}
+	}, [windows, id]);
 
-	function saveLastPosition({ x, y }: { x: number; y: number }) {
-		const c = constraints.get();
-		if (c) {
-			lastPosition.set({
-				x: x > c.right ? c.right : x < c.left ? c.left : x,
-				y: y > c.bottom ? c.bottom : y < c.top ? c.top : y,
-			});
-		} else {
-			lastPosition.set({ x, y });
-		}
-	}
+	const saveLastPosition = useCallback(
+		({ x, y }: { x: number; y: number }) => {
+			const c = constraints.get();
+			if (c) {
+				lastPosition.set({
+					x: x > c.right ? c.right : x < c.left ? c.left : x,
+					y: y > c.bottom ? c.bottom : y < c.top ? c.top : y,
+				});
+			} else {
+				lastPosition.set({ x, y });
+			}
+		},
+		[lastPosition, constraints],
+	);
 
-	function setPosition(props: {
-		x: number | undefined;
-		y: number | undefined;
-	}) {
-		return animationControlls.set(props);
-	}
+	const setPosition = useCallback(
+		(props: {
+			x: number | undefined;
+			y: number | undefined;
+		}) => {
+			return animationControlls.set(props);
+		},
+		[animationControlls],
+	);
 
 	return (
 		<motion.div
@@ -232,9 +239,7 @@ export function Window({
 				<section className="flex gap-x-1 pr-1 py-1">
 					<Button
 						className="border-2 border-outset font-bold w-[28px]"
-						onClick={() => {
-							open.set(false);
-						}}
+						onClick={() => open.set(false)}
 					>
 						__
 					</Button>
